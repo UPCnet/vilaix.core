@@ -16,5 +16,6 @@
       description="Installs the vilaix.core package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+
   
 </configure>
