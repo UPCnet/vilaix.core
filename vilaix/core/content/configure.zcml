@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="vilaix.core">
+
+  <class class=".carrousel.Carrousel">
+    <require
+        permission="zope2.View"
+        interface="..interfaces.ICarrousel"
+        />
+  </class>       
+  
+</configure>

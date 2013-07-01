@@ -7,6 +7,9 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
+  
+  <include package=".content" />  
+
   <!-- -*- extra stuff goes here -*- -->
 
   <genericsetup:registerProfile
