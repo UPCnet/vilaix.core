@@ -1,0 +1,15 @@
+<registry>
+   <records interface="plone.app.querystring.interfaces.IQueryField"
+           prefix="plone.app.querystring.field.destacat">
+    <value key="title">destacat</value>
+    <value key="description">A custom destacat index</value>
+    <value key="enabled">True</value>
+    <value key="sortable">False</value>
+    <value key="operations">
+            <element>plone.app.querystring.operation.boolean.isTrue</element>
+            <element>plone.app.querystring.operation.boolean.isFalse</element>
+    </value>
+    <value key="group">Metadades</value>
+  </records> 
+
+</registry>
