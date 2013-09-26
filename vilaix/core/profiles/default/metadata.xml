@@ -7,7 +7,10 @@
         <dependency>profile-plone.formwidget.autocomplete:default</dependency>
         <dependency>profile-pas.plugins.preauth:default</dependency>
         <dependency>profile-mrs.max:default</dependency>    
-        <dependency>profile-Products.ATVocabularyManager:default</dependency>      
-        <dependency>profile-vilaix.theme:default</dependency>
+        <dependency>profile-Products.ATVocabularyManager:default</dependency>    
+        <dependency>profile-plone.app.caching:default</dependency>  
+        <dependency>profile-genweb.core:default</dependency>
+        <dependency>profile-upc.genweb.banners:default</dependency>
+        <dependency>profile-upc.genweb.logosfooter:default</dependency>
     </dependencies>
 </metadata>

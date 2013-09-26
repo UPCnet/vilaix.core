@@ -9,7 +9,8 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
-  
+  <includeDependencies package="." />   
+ 
   <include package=".content" />  
 
   <!-- -*- extra stuff goes here -*- -->
