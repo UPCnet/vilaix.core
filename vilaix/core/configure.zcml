@@ -10,8 +10,13 @@
   <five:registerPackage package="." initialize=".initialize" />
 
   <includeDependencies package="." />   
- 
+
   <include package=".content" />  
+  
+  
+
+  <!-- Grok the package to initialise schema interfaces and content classes -->
+    <grok:grok package="." />
 
   <!-- -*- extra stuff goes here -*- -->
 

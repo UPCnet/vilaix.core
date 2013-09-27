@@ -183,7 +183,7 @@ def setupVarious(context):
         
     #Banners esquerra
     obj = portal_catalog.searchResults(portal_type = 'BannerContainer',
-                                       path = path + '/banners-esquerra')
+                                       path = path + '/banners_esquerra')
     if obj.actual_result_count == 0:  
         _createObjectByType('BannerContainer', portal, 'banners_esquerra')  
         portal['banners_esquerra'].setExcludeFromNav(True)
