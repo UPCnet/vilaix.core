@@ -18,6 +18,8 @@ from zope.component.hooks import getSite
 from zope.interface import alsoProvides 
 from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
 
+from datetime import datetime
+
 
 try:
     pkg_resources.get_distribution('plone.app.contenttypes')

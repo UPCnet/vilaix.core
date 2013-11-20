@@ -15,8 +15,64 @@ from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
 
 from genweb.core.interfaces import IHomePage
+from Products.CMFPlone.interfaces import IPloneSiteRoot
+
+from zope.component.hooks import getSite
+from zope.component import queryUtility
+from zope.component import getUtility
+from zope.component import getMultiAdapter
+
+from plone.portlets.interfaces import IPortletManager
+from plone.portlets.interfaces import IPortletAssignmentMapping
+
+from genweb.portlets.browser.manager import ISpanStorage
+
+from datetime import datetime
 # from serveiesports.theme.portlets.queryportlet import Assignment as QueryPortletAssignment
 # from serveiesports.theme.portlets.utils import setupQueryPortlet, setPortletAssignment
+
+# class setupHomePage(grok.View):
+#     grok.context(IPloneSiteRoot)
+#     grok.require('zope2.ViewManagementScreens')
+#     grok.name("setup-portlets")
+
+#     def render(self):
+#         portal = getSite()
+#         frontpage = portal['front-page']
+#         # Add portlets programatically
+#         # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager2', context=frontpage)
+#         # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+#         # from vilaix.theme.portlets.noticiaDestacada import Assignment as noticiaDestacadaAssignment        
+#         # target_manager_assignments['noticiaDestacada'] = noticiaDestacadaAssignment()
+  
+
+#         # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager3', context=frontpage)
+#         # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+#         # target_manager_assignments['buttons'] = homebuttonbarAssignment()
+#         # target_manager_assignments['max'] = maxAssignment()
+
+#         portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager3')
+#         spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+#         spanstorage.span = '8'
+
+#         portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager6')
+#         spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+#         spanstorage.span = '4'
+
+#         portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager7')
+#         spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+#         spanstorage.span = '8'
+
+#         portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager10')
+#         spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+#         spanstorage.span = '4'
+
+#         # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager4', context=frontpage)
+#         # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+#         # target_manager_assignments['calendar'] = calendarAssignment()
+#         # target_manager_assignments['stats'] = statsAssignment()
+#         # target_manager_assignments['econnect'] = econnectAssignment()
+#         return 'Done.'
 
 #Setup inicial per crear continguts al genweb Vilaix
 class SetupView(grok.View):
@@ -59,7 +115,8 @@ class SetupView(grok.View):
         print 'creating {0} News Items'.format(count)
         for i in range(count):
             obj = createContentInContainer(context, u'News Item', title=loremipsum.get_sentence(), image=self.getRandomImage(300, 200, u'sports'))
-            obj.description = loremipsum.get_paragraph()
+            obj.text = RichTextValue(loremipsum.get_sentence())
+            obj.destacat = False            
             self.publish(obj)
             obj.reindexObject()
 
@@ -107,21 +164,52 @@ class SetupView(grok.View):
     def render(self):
         """
         """
+        portal = getSite()
+        frontpage = portal['front-page']
+        # Add portlets programatically
+        # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager2', context=frontpage)
+        # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        # from vilaix.theme.portlets.noticiaDestacada import Assignment as noticiaDestacadaAssignment        
+        # target_manager_assignments['noticiaDestacada'] = noticiaDestacadaAssignment()
+  
+
+        # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager3', context=frontpage)
+        # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        # target_manager_assignments['buttons'] = homebuttonbarAssignment()
+        # target_manager_assignments['max'] = maxAssignment()
+
+        portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager3')
+        spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+        spanstorage.span = '8'
+
+        portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager6')
+        spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+        spanstorage.span = '4'
+
+        portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager7')
+        spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+        spanstorage.span = '8'
+
+        portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager10')
+        spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+        spanstorage.span = '4'
+
+
         portal_url = getToolByName(self.context, "portal_url")
         portal = portal_url.getPortalObject()
 
-        # # Delete old AT folders
+        # Delete old AT folders
         # if getattr(portal, 'events', None):
-        #     if portal.events.__class__.__name__ == 'ATFolder':
+        #     if portal.events.__class__.__name__ == 'Folder':
         #         portal.manage_delObjects(['events'])
 
         # if getattr(portal, 'news', None):
-        #     if portal.news.__class__.__name__ == 'ATFolder':
+        #     if portal.news.__class__.__name__ == 'Folder':
         #         portal.manage_delObjects(['news'])
 
-        # if getattr(portal, 'Members', None):
-        #     if portal.Members.__class__.__name__ == 'ATFolder':
-        #         portal.manage_delObjects(['Members'])
+        if getattr(portal, 'Members', None):
+            if portal.Members.__class__.__name__ == 'Folder':
+                portal.manage_delObjects(['Members'])
 
         # if getattr(portal, 'front-page', None):
         #     if portal['front-page'].__class__.__name__ == 'ATDocument':
@@ -210,10 +298,11 @@ class SetupView(grok.View):
         # campus = self.newCollection(portal, 'campus', u'CAMPUS')
         # self.publish(campus)
 
+       
         # # Create DUMMY CONTENT on request
-        # if self.request.get('dummy', False):
-        #     self.createRandomNews(portal['noticies'], 5)
-        #     self.createRandomEvents(portal['agenda'], 5)
+        # if self.request.get('dummy', False):          
+        #self.createRandomNews(portal['news'], 5)
+        # self.createRandomEvents(portal['events'], 5)
         #     self.createRandomBanners(portal['gestio']['homepage']['accessos-rapids'], 4, w=190, h=40)
         #     self.createRandomBanners(portal['gestio']['homepage']['publicitat'], 4, w=150, h=150)
         #     self.createRandomBanners(portal['gestio']['homepage']['capcalera'], 4, w=978, h=300)
