@@ -12,6 +12,25 @@ from plone.directives import form
 from zope import schema
 
 
+from plone.app.textfield import RichText
+
+from plone.app.textfield.value import RichTextValue
+
+
+class IRichDescription(form.Schema):
+    """Add tags to content
+    """
+
+    rich_description = RichText(
+        title=u"Descripció amb format",
+        description=u"Descripció amb format utilitzada per algunes vistes",
+        required=True,
+    )
+
+alsoProvides(IRichDescription, form.IFormFieldProvider)
+
+
+
 class INewDestacada(form.Schema):
     """Add tags to content
     """

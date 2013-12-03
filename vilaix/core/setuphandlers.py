@@ -191,6 +191,16 @@ def setupVarious(context):
         portal['banners_esquerra'].setExcludeFromNav(True)
         portal['banners_esquerra'].setTitle('Banners-esquerra')
         portal['banners_esquerra'].reindexObject()
-        workflowTool.doActionFor(portal.banners_esquerra, "publish")                                   
+        workflowTool.doActionFor(portal.banners_esquerra, "publish")    
+        
+    #Slider
+    obj = portal_catalog.searchResults(portal_type = 'Folder',
+                                       path = path + '/slider')
+    if obj.actual_result_count == 0:                                   
+        carrousel = createContentInContainer(portal, 'Folder', title=u"Slider", checkConstraints=False)
+        carrousel.language = pl.getDefaultLanguage()
+        carrousel.exclude_from_nav = True
+        workflowTool.doActionFor(carrousel, "publish")
+        carrousel.reindexObject()                                  
        
     transaction.commit()   
