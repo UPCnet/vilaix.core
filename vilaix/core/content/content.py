@@ -11,7 +11,9 @@ from plone.app.querystring.querybuilder import QueryBuilder
 
 from Acquisition import aq_parent, aq_inner
 from plone.app.collection.interfaces import ICollection
-from copy import deepcopy
+
+from vilaix.core.interfaces import IEquipament
+from vilaix.core.interfaces import ITramit
 
 
 class ContainerCollection(Container, Collection):
@@ -65,3 +67,9 @@ class ContainerCollection(Container, Collection):
                 raise NotFound
         else:
             raise NotFound
+
+class Equipament(Item):
+    implements(IEquipament)
+
+class Tramit(Item):
+    implements(ITramit)

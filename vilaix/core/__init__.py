@@ -1,5 +1,7 @@
 # # -*- extra stuff goes here -*-
 from vilaix.core.content.content import ContainerCollection
+from vilaix.core.content.content import Equipament
+from vilaix.core.content.content import Tramit
 
 # def initialize(context):
 #     """Initializer called when used as a Zope 2 product."""

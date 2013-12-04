@@ -24,7 +24,7 @@ class IRichDescription(form.Schema):
     rich_description = RichText(
         title=u"Descripció amb format",
         description=u"Descripció amb format utilitzada per algunes vistes",
-        required=True,
+        required=False,
     )
 
 alsoProvides(IRichDescription, form.IFormFieldProvider)

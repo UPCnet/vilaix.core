@@ -23,7 +23,7 @@
   <element value="all_content"/>
   <element value="tabular_view"/>
   <element value="thumbnail_view"/>
-  <element value="portletview"/>
+  <element value="subhome"/>
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">plone.app.collection.addCollection</property>
