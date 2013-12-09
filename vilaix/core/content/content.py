@@ -14,6 +14,7 @@ from plone.app.collection.interfaces import ICollection
 
 from vilaix.core.interfaces import IEquipament
 from vilaix.core.interfaces import ITramit
+from vilaix.core.interfaces import ISlider
 
 
 class ContainerCollection(Container, Collection):
@@ -73,3 +74,6 @@ class Equipament(Item):
 
 class Tramit(Item):
     implements(ITramit)
+
+class Slider(Item):
+    implements(ISlider)

@@ -10,5 +10,6 @@
   <object name="Collection" meta_type="Dexterity FTI"/>
   <object name="Equipament" meta_type="Dexterity FTI" />
   <object name="Tramit" meta_type="Dexterity FTI" />
+  <object name="Slider" meta_type="Dexterity FTI" />
      
 </object>
