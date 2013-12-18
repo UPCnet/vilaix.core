@@ -207,9 +207,9 @@ class SetupView(grok.View):
         #     if portal.news.__class__.__name__ == 'Folder':
         #         portal.manage_delObjects(['news'])
 
-        if getattr(portal, 'Members', None):
-            if portal.Members.__class__.__name__ == 'Folder':
-                portal.manage_delObjects(['Members'])
+        # if getattr(portal, 'Members', None):
+        #     if portal.Members.__class__.__name__ == 'ATFolder':
+        #         portal.manage_delObjects(['Members'])
 
         # if getattr(portal, 'front-page', None):
         #     if portal['front-page'].__class__.__name__ == 'ATDocument':
@@ -224,7 +224,14 @@ class SetupView(grok.View):
         #     alsoProvides(dummypage, IHomePage)
         #     dummypage.reindexObject()
 
-        # noticies = self.newFolder(portal, 'noticies', 'Noticies')
+     
+        # urltool = getToolByName(portal, 'portal_url')        
+        # portal_catalog = getToolByName(portal, 'portal_catalog')
+        # path = urltool.getPortalPath() 
+        # actualitat = portal_catalog.searchResults(portal_type = 'Folder',
+        #                                path = path + '/actualitat')
+
+        # noticies = self.newFolder(actualitat, 'noticies', 'Noticies')
         # noticies.exclude_from_nav = True
         # self.publish(noticies)
 
@@ -301,7 +308,7 @@ class SetupView(grok.View):
        
         # # Create DUMMY CONTENT on request
         # if self.request.get('dummy', False):          
-        #self.createRandomNews(portal['news'], 5)
+        #     self.createRandomNews(portal['news'], 5)
         # self.createRandomEvents(portal['events'], 5)
         #     self.createRandomBanners(portal['gestio']['homepage']['accessos-rapids'], 4, w=190, h=40)
         #     self.createRandomBanners(portal['gestio']['homepage']['publicitat'], 4, w=150, h=150)
