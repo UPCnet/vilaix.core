@@ -106,6 +106,7 @@ def setupVarious(context):
     urltool = getToolByName(portal, 'portal_url')        
     portal_catalog = getToolByName(portal, 'portal_catalog')
     path = urltool.getPortalPath() 
+    portal = getSite()
     obj = []   
 
     workflowTool = getToolByName(portal, "portal_workflow")   
@@ -113,22 +114,22 @@ def setupVarious(context):
     #Actualitat
     obj = portal_catalog.searchResults(portal_type = 'Folder',
                                        path = path + '/actualitat')
-    if obj.actual_result_count == 0:                                   
-        actualitat = createContentInContainer(portal, 'Folder', title=u"Actualitat", checkConstraints=False)
-        actualitat.language = pl.getDefaultLanguage()
-        actualitat.exclude_from_nav = True
-        workflowTool.doActionFor(actualitat, "publish")
-        actualitat.reindexObject()   
+    # if obj.actual_result_count == 0:                                   
+    #     actualitat = createContentInContainer(portal, 'Folder', title=u"Actualitat", checkConstraints=False)
+    #     actualitat.language = pl.getDefaultLanguage()
+    #     actualitat.exclude_from_nav = True
+    #     workflowTool.doActionFor(actualitat, "publish")
+    #     actualitat.reindexObject()   
 
     #Noticias
     obj = portal_catalog.searchResults(portal_type = 'Folder',
                                        path = path + '/noticies')
-    if obj.actual_result_count == 0:                                   
-        noticies = createContentInContainer(actualitat, 'Folder', title=u"Notícies", checkConstraints=False)
-        noticies.language = pl.getDefaultLanguage()
-        noticies.exclude_from_nav = True
-        workflowTool.doActionFor(noticies, "publish")
-        noticies.reindexObject()   
+    # if obj.actual_result_count == 0:                                   
+    #     noticies = createContentInContainer(actualitat, 'Folder', title=u"Notícies", checkConstraints=False)
+    #     noticies.language = pl.getDefaultLanguage()
+    #     noticies.exclude_from_nav = True
+    #     workflowTool.doActionFor(noticies, "publish")
+    #     noticies.reindexObject()   
 
     #Collection Noticias
     # obj = portal_catalog.searchResults(portal_type = 'Collection',
@@ -143,12 +144,12 @@ def setupVarious(context):
     #esdeveniments
     obj = portal_catalog.searchResults(portal_type = 'Folder',
                                        path = path + '/esdeveniments')
-    if obj.actual_result_count == 0:                                   
-        esdeveniments = createContentInContainer(actualitat, 'Folder', title=u"Esdeveniments", checkConstraints=False)
-        esdeveniments.language = pl.getDefaultLanguage()
-        esdeveniments.exclude_from_nav = True
-        workflowTool.doActionFor(esdeveniments, "publish")
-        esdeveniments.reindexObject()   
+    # if obj.actual_result_count == 0:                                   
+    #     esdeveniments = createContentInContainer(actualitat, 'Folder', title=u"Esdeveniments", checkConstraints=False)
+    #     esdeveniments.language = pl.getDefaultLanguage()
+    #     esdeveniments.exclude_from_nav = True
+    #     workflowTool.doActionFor(esdeveniments, "publish")
+    #     esdeveniments.reindexObject()   
     
     #Collection esdeveniments
     # obj = portal_catalog.searchResults(portal_type = 'Collection',
@@ -229,45 +230,45 @@ def setupVarious(context):
         material_multimedia.reindexObject()   
 
     #Slider
-    obj = portal_catalog.searchResults(portal_type = 'Folder',
-                                       path = path + '/sliders')
-    if obj.actual_result_count == 0:                                   
-        slider = createContentInContainer(material_multimedia, 'Folder', title=u"Sliders", checkConstraints=False)
-        slider.language = pl.getDefaultLanguage()
-        slider.exclude_from_nav = True
-        workflowTool.doActionFor(slider, "publish")
-        slider.reindexObject()               
+    # obj = portal_catalog.searchResults(portal_type = 'Folder',
+    #                                    path = path + '/sliders')
+    # if obj.actual_result_count == 0:                                   
+    #     slider = createContentInContainer(material_multimedia, 'Folder', title=u"Sliders", checkConstraints=False)
+    #     slider.language = pl.getDefaultLanguage()
+    #     slider.exclude_from_nav = True
+    #     workflowTool.doActionFor(slider, "publish")
+    #     slider.reindexObject()               
 
     #Banners
-    obj = portal_catalog.searchResults(portal_type = 'Folder',
-                                       path = path + '/banners')
-    if obj.actual_result_count == 0:                                   
-        banners = createContentInContainer(material_multimedia, 'Folder', title=u"Banners", checkConstraints=False)
-        banners.language = pl.getDefaultLanguage()
-        banners.exclude_from_nav = True
-        workflowTool.doActionFor(banners, "publish")
-        banners.reindexObject()               
+    # obj = portal_catalog.searchResults(portal_type = 'Folder',
+    #                                    path = path + '/banners')
+    # if obj.actual_result_count == 0:                                   
+    #     banners = createContentInContainer(material_multimedia, 'Folder', title=u"Banners", checkConstraints=False)
+    #     banners.language = pl.getDefaultLanguage()
+    #     banners.exclude_from_nav = True
+    #     workflowTool.doActionFor(banners, "publish")
+    #     banners.reindexObject()               
 
     
     #Carrousel
-    obj = portal_catalog.searchResults(portal_type = 'Folder',
-                                       path = path + '/carrousel')
-    if obj.actual_result_count == 0:                                   
-        carrousel = createContentInContainer(material_multimedia, 'Folder', title=u"Carroussel", checkConstraints=False)
-        carrousel.language = pl.getDefaultLanguage()
-        carrousel.exclude_from_nav = True
-        workflowTool.doActionFor(carrousel, "publish")
-        carrousel.reindexObject()   
+    # obj = portal_catalog.searchResults(portal_type = 'Folder',
+    #                                    path = path + '/carrousel')
+    # if obj.actual_result_count == 0:                                   
+    #     carrousel = createContentInContainer(material_multimedia, 'Folder', title=u"Carroussel", checkConstraints=False)
+    #     carrousel.language = pl.getDefaultLanguage()
+    #     carrousel.exclude_from_nav = True
+    #     workflowTool.doActionFor(carrousel, "publish")
+    #     carrousel.reindexObject()   
    
     #Imatges Capçalera
-    obj = portal_catalog.searchResults(portal_type = 'Folder',
-                                       path = path + '/imatges-capcalera')
-    if obj.actual_result_count == 0:                                   
-        imatges_capcalera = createContentInContainer(material_multimedia, 'Folder', title=u"Imatges capçalera", checkConstraints=False)
-        imatges_capcalera.language = pl.getDefaultLanguage()
-        imatges_capcalera.exclude_from_nav = True
-        workflowTool.doActionFor(imatges_capcalera, "publish")
-        imatges_capcalera.reindexObject()  
+    # obj = portal_catalog.searchResults(portal_type = 'Folder',
+    #                                    path = path + '/imatges-capcalera')
+    # if obj.actual_result_count == 0:                                   
+    #     imatges_capcalera = createContentInContainer(material_multimedia, 'Folder', title=u"Imatges capçalera", checkConstraints=False)
+    #     imatges_capcalera.language = pl.getDefaultLanguage()
+    #     imatges_capcalera.exclude_from_nav = True
+    #     workflowTool.doActionFor(imatges_capcalera, "publish")
+    #     imatges_capcalera.reindexObject()  
     
     
     #Banners dreta

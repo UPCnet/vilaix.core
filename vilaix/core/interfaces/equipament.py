@@ -69,7 +69,7 @@ class IEquipament(form.Schema):
         required=False,
     )
 
-    ubicacio = schema.TextLine(
+    ubicacio = RichText(
         title=_(u"geoLocalització"),
         description=_(u"Afegeix l'ubicació en el plànol"),
         required=False,
