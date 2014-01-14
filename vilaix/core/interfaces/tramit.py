@@ -16,11 +16,11 @@ class ITramit(form.Schema):
     """Un tràmit
     """
 
-    image = NamedImage(
-        title=_(u"Image"),
-        description=_(u"Please upload an image"),
-        required=False,
-    )
+    # image = NamedImage(
+    #     title=_(u"Image"),
+    #     description=_(u"Please upload an image"),
+    #     required=False,
+    # )
 
     qui = RichText(
         title=_(u"Qui el pot sol·licitar?"),
