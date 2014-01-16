@@ -73,5 +73,6 @@ class IEquipament(form.Schema):
         title=_(u"geoLocalització"),
         description=_(u"Afegeix l'ubicació en el plànol"),
         required=False,
+        readonly=True,
     )
     
