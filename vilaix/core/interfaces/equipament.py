@@ -45,6 +45,12 @@ class IEquipament(form.Schema):
         required=False,
     )
 
+    geolocalitzacio = schema.TextLine(
+        title=_(u"Geolocalitzacio"),
+        description=_(u"Afegeix la geolocalitzacio"),
+        required=False,
+    )
+
     telefon = schema.TextLine(
         title=_(u"Telèfon"),
         description=_(u"Afegeix el telèfon de contacte del responsable de l'equipament"),
@@ -74,5 +80,11 @@ class IEquipament(form.Schema):
         description=_(u"Afegeix l'ubicació en el plànol"),
         required=False,
         readonly=True,
+    )
+
+    ubicacio_iframe = RichText(
+        title=_(u"geoLocalització"),
+        description=_(u"Enganxa iframe de google maps si la ubicació no surt correctament"),
+        required=False,       
     )
     

@@ -11,8 +11,6 @@ from Products.Archetypes.atapi import *
 from vilaix.core.interfaces import ICarrousel
 from vilaix.core.config import PROJECTNAME
 
-from Products.ATVocabularyManager import NamedVocabulary
-
 CarrouselSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
     ImageField(
@@ -43,73 +41,6 @@ CarrouselSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
     ),
 
-#    atapi.LinesField(
-#        name='esplugues_temes',
-#        widget=atapi.MultiSelectionWidget(
-#                format="select",
-#                label = 'Esplugues per temes',
-#                description = 'Selecciona les categories a les que pertany aquest element', 
-#                label_msgid='temes_label',
-#                description_msgid='temes_help',
-#                i18n_domain='vilaix.core',
-#        ),
-#        languageIndependent=True,
-#        multiValued=False,
-#        schemata="categorization",
-#        vocabulary=NamedVocabulary('temes_keywords'),
-#        enforceVocabulary = True,
-#    ),
-#
-#    atapi.LinesField(
-#        name='esplugues_persones',
-#        widget=atapi.MultiSelectionWidget(
-#                format="select",
-#                label = 'Esplugues per les persones',
-#                description = 'Selecciona les categories a les que pertany aquest element',
-#                label_msgid='persones_label',       
-#                description_msgid='persones_help',
-#                i18n_domain='vilaix.core',
-#        ),
-#        languageIndependent=True,
-#        multiValued=False,
-#        schemata="categorization",
-#        vocabulary=NamedVocabulary('persones_keywords'),
-#        enforceVocabulary = True,
-#    ),
-#
-#    atapi.LinesField(
-#        name='esplugues_xifres',
-#        widget=atapi.MultiSelectionWidget(
-#                format="select",
-#                label = 'Esplugues per les xifres',
-#                description = 'Selecciona les categories a les que pertany aquest element',
-#                label_msgid='xifres_label',       
-#                description_msgid='xifres_help',                                 
-#                i18n_domain='vilaix.core',
-#        ),
-#        languageIndependent=True,
-#        multiValued=False,
-#        schemata="categorization",
-#        vocabulary=NamedVocabulary('xifres_keywords'),
-#        enforceVocabulary = True,
-#    ),
-#
-#    atapi.LinesField(
-#        name='esplugues_barris',
-#        widget=atapi.MultiSelectionWidget(
-#                format="select",
-#                label = 'Esplugues per barris', 
-#                description = 'Selecciona les categories a les que pertany aquest element',
-#                label_msgid='barris_label',       
-#                description_msgid='barris_help',                                
-#                i18n_domain='vilaix.core',
-#        ),
-#        languageIndependent=True,
-#        multiValued=False,
-#        schemata="categorization",
-#        vocabulary=NamedVocabulary('barris_keywords'),
-#        enforceVocabulary = True,
-#    ),
 
 ))
 

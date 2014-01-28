@@ -28,6 +28,21 @@ from plone.portlets.interfaces import IPortletAssignmentMapping
 from genweb.portlets.browser.manager import ISpanStorage
 
 from datetime import datetime
+import pkg_resources
+
+from zope.interface import alsoProvides 
+from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
+from Products.CMFPlone.utils import _createObjectByType
+
+try:
+    pkg_resources.get_distribution('plone.app.contenttypes')
+except pkg_resources.DistributionNotFound:
+    HAS_DXCT = False
+else:
+    HAS_DXCT = True
+    from plone.dexterity.utils import createContentInContainer
+
+
 # from serveiesports.theme.portlets.queryportlet import Assignment as QueryPortletAssignment
 # from serveiesports.theme.portlets.utils import setupQueryPortlet, setPortletAssignment
 
@@ -93,10 +108,9 @@ class SetupView(grok.View):
             obj.reindexObject()
         return obj
 
-    def newCollection(self, context, newid, title, tag=None):
+    def newCollection(self, context, newid, title, query=None):
         collection = self.createOrGetObject(context, newid, title, u'Collection')
-        if tag is not None:
-            query = [{u'i': u'Subject', u'o': u'plone.app.querystring.operation.selection.is', u'v': [tag, ]}]
+        if query is not None:            
             collection.query = query
             collection.reindexObject()
         return collection
@@ -116,7 +130,7 @@ class SetupView(grok.View):
         for i in range(count):
             obj = createContentInContainer(context, u'News Item', title=loremipsum.get_sentence(), image=self.getRandomImage(300, 200, u'sports'))
             obj.text = RichTextValue(loremipsum.get_sentence())
-            obj.destacat = False            
+            obj.destacat = False                
             self.publish(obj)
             obj.reindexObject()
 
@@ -165,18 +179,265 @@ class SetupView(grok.View):
         """
         """
         portal = getSite()
-        frontpage = portal['front-page']
+        frontpage = portal['front-page']  
+
+        urltool = getToolByName(portal, 'portal_url')        
+        portal_catalog = getToolByName(portal, 'portal_catalog')
+        path = urltool.getPortalPath() 
+        workflowTool = getToolByName(portal, "portal_workflow")
+        pl = getToolByName(portal, 'portal_languages')
+
+        obj = portal_catalog.searchResults(portal_type = 'Folder',
+                                            path = path + '/noticies')
+        if obj.actual_result_count == 0:
+            noticies = self.newFolder(portal, 'noticies', 'Noticies')
+            noticies.description = 'Noticies del lloc'
+            noticies.exclude_from_nav = True
+            self.publish(noticies)
+
+            noticies_destacades = self.newCollection(noticies, 'noticies-destacades', u'Noticies Destacades', query = [{u'i': u'portal_type', u'o': u'plone.app.querystring.operation.selection.is', u'v': [u'News Item']},
+                                                                                                                       {u'i': u'review_state', u'o': u'plone.app.querystring.operation.selection.is', u'v': u'published'},
+                                                                                                                       {u'i': u'destacat', u'o': u'plone.app.querystring.operation.boolean.isTrue', u'v': u'Sí'}])
+            self.publish(noticies_destacades)
+
+            noticies = self.newCollection(noticies, 'noticies', u'Noticies', query = [{u'i': u'portal_type', u'o': u'plone.app.querystring.operation.selection.is', u'v': [u'News Item']},
+                                                                                      {u'i': u'review_state', u'o': u'plone.app.querystring.operation.selection.is', u'v': u'published'}])
+            self.publish(noticies)
+
+        obj = portal_catalog.searchResults(portal_type = 'Folder',
+                                            path = path + '/esdeveniments')
+        if obj.actual_result_count == 0:
+            esdeveniments = self.newFolder(portal, 'esdeveniments', 'Esdeveniments')
+            esdeveniments.description = 'Esdeveniments del lloc'
+            esdeveniments.exclude_from_nav = True
+            self.publish(esdeveniments)
+
+            esdeveniments = self.newCollection(esdeveniments, 'esdeveniments', u'Esdeveniments', query = [{u'i': u'portal_type', u'o': u'plone.app.querystring.operation.selection.is', u'v': [u'Event']},
+                                                                                                          {u'i': u'review_state', u'o': u'plone.app.querystring.operation.selection.is', u'v': u'published'}])
+            
+            self.publish(esdeveniments)          
+                     
+        #Menú principal
+        obj = portal_catalog.searchResults(portal_type = 'Folder',
+                                            path = path + '/menu-principal')
+        if obj.actual_result_count == 0:      
+            menu_principal = self.newFolder(portal, 'menu-principal', u'Menú principal')
+            menu_principal.language = pl.getDefaultLanguage()
+            menu_principal.exclude_from_nav = True
+            self.publish(menu_principal)
+            alsoProvides(menu_principal, IHideFromBreadcrumbs)
+            menu_principal.reindexObject()
+
+            ajuntament = self.newFolder(menu_principal, 'ajuntament', u'Ajuntament')
+            ajuntament.language = pl.getDefaultLanguage()       
+            self.publish(ajuntament)
+            ajuntament.reindexObject()   
+            
+            informacio_municipal = self.newFolder(menu_principal, 'informacio-municipal', u'Informació Municipal')
+            informacio_municipal.language = pl.getDefaultLanguage()       
+            self.publish(informacio_municipal)
+            informacio_municipal.reindexObject()     
+
+            seu_electronica = self.newFolder(menu_principal, 'seu-electronica', u'Seu electrònica')
+            seu_electronica.language = pl.getDefaultLanguage()       
+            self.publish(seu_electronica) 
+            seu_electronica.reindexObject()    
+            
+            guia_de_la_ciutat = self.newFolder(menu_principal, 'guia-de-la-ciutat', u'Guia de la ciutat')
+            guia_de_la_ciutat.language = pl.getDefaultLanguage()       
+            self.publish(guia_de_la_ciutat)
+            guia_de_la_ciutat.reindexObject()    
+        
+            
+            borsa_de_treball = self.newFolder(menu_principal, 'borsa-de-treball', u'Borsa de treball')
+            borsa_de_treball.language = pl.getDefaultLanguage()       
+            self.publish(borsa_de_treball)
+            borsa_de_treball.reindexObject()    
+
+
+        #Menú Lateral       
+        obj = portal_catalog.searchResults(portal_type = 'Folder',
+                                            path = path + '/menu-lateral')
+        if obj.actual_result_count == 0:
+            menu_lateral = self.newFolder(portal, 'menu-lateral', u'Menú lateral')
+            menu_lateral.language = pl.getDefaultLanguage()
+            menu_lateral.exclude_from_nav = True
+            self.publish(menu_lateral)
+            alsoProvides(menu_lateral, IHideFromBreadcrumbs)
+            menu_lateral.reindexObject()
+
+            la_ciutat_per_temes = self.newFolder(menu_lateral, 'la-ciutat-per-temes', u'La ciutat per temes')
+            la_ciutat_per_temes.language = pl.getDefaultLanguage()       
+            self.publish(la_ciutat_per_temes)
+            la_ciutat_per_temes.reindexObject() 
+            
+            la_ciutat_per_les_persones = self.newFolder(menu_lateral, 'la-ciutat-per-les-persones', u'La ciutat i les persones')
+            la_ciutat_per_les_persones.language = pl.getDefaultLanguage()       
+            self.publish(la_ciutat_per_les_persones)
+            la_ciutat_per_les_persones.reindexObject()  
+
+            la_ciutat_en_xifres = self.newFolder(menu_lateral, 'la-ciutat-en-xifres', u'La ciutat en xifres')
+            la_ciutat_en_xifres.language = pl.getDefaultLanguage()       
+            self.publish(la_ciutat_en_xifres)
+            la_ciutat_en_xifres.reindexObject()
+
+            la_ciutat_per_districtes = self.newFolder(menu_lateral, 'la-ciutat-per-districtes', u'La ciutat per districtes')
+            la_ciutat_per_districtes.language = pl.getDefaultLanguage()       
+            self.publish(la_ciutat_per_districtes)
+            la_ciutat_per_districtes.reindexObject()
+
+        
+        #Material multimèdia
+        obj = portal_catalog.searchResults(portal_type = 'Folder',
+                                            path = path + '/material-multimedia')
+        if obj.actual_result_count == 0:
+            material_multimedia = self.newFolder(portal, 'material-multimedia', u'Material multimèdia')
+            material_multimedia.language = pl.getDefaultLanguage()
+            material_multimedia.exclude_from_nav = True
+            self.publish(material_multimedia)       
+            material_multimedia.reindexObject()
+   
+        #Slider
+        obj = portal_catalog.searchResults(portal_type = 'Folder',
+                                            path = path + '/material-multimedia/sliders')
+        if obj.actual_result_count == 0:            
+            res = portal_catalog.searchResults(id = 'material-multimedia')
+            if res:
+                material_multimedia = res[0].getObject()
+            slider = self.newFolder(material_multimedia, 'sliders', u'Sliders')
+            slider.language = pl.getDefaultLanguage()
+            slider.exclude_from_nav = True
+            self.publish(slider)       
+            slider.reindexObject()
+
+        #Banners
+        obj = portal_catalog.searchResults(portal_type = 'Folder',
+                                            path = path + '/material-multimedia/banners')
+        if obj.actual_result_count == 0:     
+            res = portal_catalog.searchResults(id = 'material-multimedia')
+            if res:
+                material_multimedia = res[0].getObject()     
+            banners = self.newFolder(material_multimedia, 'banners', u'Banners')
+            banners.language = pl.getDefaultLanguage()
+            banners.exclude_from_nav = True
+            self.publish(banners)       
+            banners.reindexObject()
+      
+        #Carrousel
+        obj = portal_catalog.searchResults(portal_type = 'Folder',
+                                            path = path + '/material-multimedia/carrousel')
+        if obj.actual_result_count == 0:  
+            res = portal_catalog.searchResults(id = 'material-multimedia')
+            if res:
+                material_multimedia = res[0].getObject()         
+            carrousel = self.newFolder(material_multimedia, 'carrousel', u'Carroussel')
+            carrousel.language = pl.getDefaultLanguage()
+            carrousel.exclude_from_nav = True
+            self.publish(carrousel)       
+            carrousel.reindexObject()
+
+        #Imatges Capçalera
+        obj = portal_catalog.searchResults(portal_type = 'Folder',
+                                            path = path + '/material-multimedia/imatges-capcalera')
+        if obj.actual_result_count == 0: 
+            res = portal_catalog.searchResults(id = 'material-multimedia')
+            if res:
+                material_multimedia = res[0].getObject()          
+            imatges_capcalera = self.newFolder(material_multimedia, 'imatges-capcalera', u'Imatges capçalera')
+            imatges_capcalera.language = pl.getDefaultLanguage()
+            imatges_capcalera.exclude_from_nav = True
+            self.publish(imatges_capcalera)       
+            imatges_capcalera.reindexObject()    
+
+        #Banners dreta
+        obj = portal_catalog.searchResults(portal_type = 'BannerContainer',
+                                                path = path + '/material-multimedia/banners/banners_dreta')
+        if obj.actual_result_count == 0:
+            _createObjectByType('BannerContainer', banners, 'banners_dreta')  
+            banners['banners_dreta'].setExcludeFromNav(True)
+            banners['banners_dreta'].setTitle('Banners-dreta')
+            banners['banners_dreta'].reindexObject()
+            workflowTool.doActionFor(banners.banners_dreta, "publish")  
+
+
+        #Banners esquerra
+        obj = portal_catalog.searchResults(portal_type = 'BannerContainer',
+                                                path = path + '/material-multimedia/banners/banners_esquerra')
+        if obj.actual_result_count == 0:
+            _createObjectByType('BannerContainer', banners, 'banners_esquerra')  
+            banners['banners_esquerra'].setExcludeFromNav(True)
+            banners['banners_esquerra'].setTitle('Banners-esquerra')
+            banners['banners_esquerra'].reindexObject()
+            workflowTool.doActionFor(banners.banners_esquerra, "publish")          
+                
+       
+        #Documents
+        obj = portal_catalog.searchResults(portal_type = 'Folder',
+                                           path = path + '/documents')
+        if obj.actual_result_count == 0:                                
+            documents = self.newFolder(portal, 'documents', u'Documents')
+            documents.language = pl.getDefaultLanguage()
+            documents.exclude_from_nav = True
+            self.publish(documents)       
+            documents.reindexObject()    
+
+        #Directori equipaments
+        obj = portal_catalog.searchResults(portal_type = 'Folder',
+                                           path = path + '/directori-equipaments')
+        if obj.actual_result_count == 0:    
+            directori_equipaments = self.newFolder(portal, 'directori-equipaments', u'Directori equipaments')
+            directori_equipaments.language = pl.getDefaultLanguage()
+            directori_equipaments.exclude_from_nav = True
+            self.publish(directori_equipaments)       
+            directori_equipaments.reindexObject()    
+
+    
+        #Tràmits
+        obj = portal_catalog.searchResults(portal_type = 'Folder',
+                                           path = path + '/tramits')
+        if obj.actual_result_count == 0:    
+            tramits = self.newFolder(portal, 'tramits', u'Tràmits')
+            tramits.language = pl.getDefaultLanguage()
+            tramits.exclude_from_nav = True
+            self.publish(tramits)       
+            tramits.reindexObject()    
+
+
         # Add portlets programatically
-        # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager2', context=frontpage)
-        # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
-        # from vilaix.theme.portlets.noticiaDestacada import Assignment as noticiaDestacadaAssignment        
-        # target_manager_assignments['noticiaDestacada'] = noticiaDestacadaAssignment()
+        from vilaix.theme.portlets.noticiaDestacada import Assignment as noticiaDestacadaAssignment 
+        from vilaix.theme.portlets.news import Assignment as noticiaAssignment 
+        from vilaix.theme.portlets.bannersportlet import Assignment as bannersVilaixAssignment
+        from vilaix.theme.portlets.agendaVilaix import Assignment as agendaVilaixAssignment
+        from vilaix.theme.portlets.navigationfixed import Assignment as navigationfixedAssignment
+        from plone.app.event.portlets.portlet_calendar import Assignment as calendarAssignment
+        
+
+        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager1', context=frontpage)
+        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        target_manager_assignments['navigationfixed'] = navigationfixedAssignment(root='/menu-lateral')
+        target_manager_assignments['bannersVilaix'] = bannersVilaixAssignment(content='/material-multimedia/banners/banners_esquerra')     
   
 
-        # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager3', context=frontpage)
-        # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
-        # target_manager_assignments['buttons'] = homebuttonbarAssignment()
-        # target_manager_assignments['max'] = maxAssignment()
+        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager2', context=frontpage)
+        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        target_manager_assignments['noticiaDestacada'] = noticiaDestacadaAssignment()        
+  
+
+        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager3', context=frontpage)
+        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        target_manager_assignments['noticies'] = noticiaAssignment()
+        
+        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager6', context=frontpage)
+        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        target_manager_assignments['bannersVilaix'] = bannersVilaixAssignment(content='/material-multimedia/banners/banners_dreta')
+        
+        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager7', context=frontpage)
+        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        target_manager_assignments['agendaVilaix'] = agendaVilaixAssignment() 
+
+        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager10', context=frontpage)
+        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        target_manager_assignments['calendari'] = calendarAssignment(state='published')
 
         portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager3')
         spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
@@ -192,154 +453,7 @@ class SetupView(grok.View):
 
         portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager10')
         spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
-        spanstorage.span = '4'
-
-
-        portal_url = getToolByName(self.context, "portal_url")
-        portal = portal_url.getPortalObject()
-
-        # Delete old AT folders
-        # if getattr(portal, 'events', None):
-        #     if portal.events.__class__.__name__ == 'Folder':
-        #         portal.manage_delObjects(['events'])
-
-        # if getattr(portal, 'news', None):
-        #     if portal.news.__class__.__name__ == 'Folder':
-        #         portal.manage_delObjects(['news'])
-
-        # if getattr(portal, 'Members', None):
-        #     if portal.Members.__class__.__name__ == 'ATFolder':
-        #         portal.manage_delObjects(['Members'])
-
-        # if getattr(portal, 'front-page', None):
-        #     if portal['front-page'].__class__.__name__ == 'ATDocument':
-        #         portal.manage_delObjects(['front-page'])
-
-        # dummypage = self.createOrGetObject(portal, 'portletshome', 'Portlets placeholder', 'Document')
-        # dummypage.setLanguage('ca')
-        # dummypage.exclude_from_nav = True
-        # self.publish(dummypage)
-        #         # Mark the home page
-        # if getattr(portal, 'portletshome', False):
-        #     alsoProvides(dummypage, IHomePage)
-        #     dummypage.reindexObject()
-
-     
-        # urltool = getToolByName(portal, 'portal_url')        
-        # portal_catalog = getToolByName(portal, 'portal_catalog')
-        # path = urltool.getPortalPath() 
-        # actualitat = portal_catalog.searchResults(portal_type = 'Folder',
-        #                                path = path + '/actualitat')
-
-        # noticies = self.newFolder(actualitat, 'noticies', 'Noticies')
-        # noticies.exclude_from_nav = True
-        # self.publish(noticies)
-
-        # esdeveniments = self.newFolder(portal, 'agenda', 'Agenda')
-        # esdeveniments.exclude_from_nav = True
-        # self.publish(esdeveniments)
-
-        # gestio = self.newFolder(portal, 'gestio', u'Gestió')
-        # gestio.exclude_from_nav = True
-
-        # homepage = self.newFolder(gestio, 'homepage', u'Gestió elements pàgina principal')
-        # accessos = self.newFolder(homepage, 'accessos-rapids', u'Accessos ràpids')
-        # publicitat = self.newFolder(homepage, 'publicitat', u'Publicitat')
-        # capcalera = self.newFolder(homepage, 'capcalera', u'Imatges capçalera')
-        # destacats = self.newFolder(gestio, 'destacats', u'Destacats')
-
-        # social = self.newFolder(homepage, 'xarxes-socials', u'Xarxes socials')
-        # descripcio = self.createOrGetObject(homepage, 'descripcio', u'Text peu pàgina principal', type_name='Document')
-        # self.publish(descripcio)
-
-        # g_instalacions = self.newFolder(gestio, 'instalacions', u'Instal·lacions', type_name='SyncFolder')
-        # g_activitats = self.newFolder(gestio, 'activitats', u'Activitats', type_name='SyncFolder')
-        # g_competicions = self.newFolder(gestio, 'competicions', u'Competicions', type_name='SyncFolder')
-
-        # self.publish(g_instalacions)
-        # self.publish(g_activitats)
-        # self.publish(g_competicions)
-
-        # g_instalacions.url = 'http://puntabarrina.upc.edu/deportes/datos/pregen/xml/instalaciones.xml'
-        # g_instalacions.importer = 'upc.serveiesports.content.browser.import.InstalacioImporter'
-        # g_instalacions.description = u'Instal·lacions provinents de OMESA'
-
-        # g_activitats.url = 'http://puntabarrina.upc.edu/deportes/datos/pregen/xml/cursos.xml'
-        # g_activitats.importer = 'upc.serveiesports.content.browser.import.ActivitatImporter'
-        # g_activitats.description = u'Activitats provinents de OMESA'
-
-        # g_competicions.url = 'http://puntabarrina.upc.edu/deportes/datos/pregen/xml/competiciones.xml'
-        # g_competicions.importer = 'upc.serveiesports.content.browser.import.CompeticioImporter'
-        # g_competicions.description = u'Competicions provinents de OMESA'
-
-        # # ACTIVITATS DIRIGIDES menu and submenus
-        # activitats = self.newCollection(portal, 'activitats-dirigides', u'ACTIVITATS DIRIGIDES')
-        # self.publish(activitats)
-
-        # # COMPETICIO menu and submenus
-        # competicio = self.newCollection(portal, 'competicio', u'COMPETICIÓ')
-        # self.publish(competicio)
-
-        # # ACTIVITAT FÍSICA menu and submenus
-        # activitat_fisica = self.newCollection(portal, 'activitat-fisica', u'ACTIVITAT FÍSICA')
-        # self.publish(activitat_fisica)
-
-        # # COMUNITAT I SERVEIS menu and submenus
-        # comunitat = self.newCollection(portal, 'comunitat-i-serveis', u'COMUNITAT I SERVEIS')
-        # self.publish(comunitat)
-
-        # # INSTALACIONS menu and submenus
-        # instalacions = self.newCollection(portal, 'instalacions', u'INSTAL·LACIONS')
-        # self.publish(instalacions)
-        # ecol = self.newCollection(instalacions, 'esports-colectius', u'ESPORTS COLECTIUS', u'esports colectius')
-        # ecol.description = loremipsum.get_paragraph()
-        # ecol.image = self.getRandomImage(300, 200, u'sports')
-        # ecol.reindexObject()
-
-        # self.newCollection(instalacions, 'esports-adversaris', u'ESPORTS D''ADVERSARI', u'esports d''adversari')
-        # self.newCollection(instalacions, 'esports-individuals', u'ESPORTS INDIVIDUALS', u'esports individuals')
-        # self.newCollection(instalacions, 'sales-activitats', u'SALES D''ACTIVITATS', u'sales d''activitats')
-        # self.newCollection(instalacions, 'aules-aprenentatge', u'AULES D''APRENENTATGE', u'aules d''aprenentatge')
-
-        # # CAMPUS menu and submenus
-        # campus = self.newCollection(portal, 'campus', u'CAMPUS')
-        # self.publish(campus)
-
-       
-        # # Create DUMMY CONTENT on request
-        # if self.request.get('dummy', False):          
-        #     self.createRandomNews(portal['news'], 5)
-        # self.createRandomEvents(portal['events'], 5)
-        #     self.createRandomBanners(portal['gestio']['homepage']['accessos-rapids'], 4, w=190, h=40)
-        #     self.createRandomBanners(portal['gestio']['homepage']['publicitat'], 4, w=150, h=150)
-        #     self.createRandomBanners(portal['gestio']['homepage']['capcalera'], 4, w=978, h=300)
-        #     self.createRandomDestacats(portal['gestio']['destacats'], 30, w=330, h=200)
-
-        # #Create homepage portlet assignments
-
-        # assignment = setPortletAssignment(1, dummypage, 'accessos', QueryPortletAssignment)
-        # query = [{u'i': u'portal_type', u'o': u'plone.app.querystring.operation.selection.is', u'v': [u'BannerEsports']},
-        #          {u'i': u'path', u'o': u'plone.app.querystring.operation.string.path', u'v': u'/gestio/homepage/accessos-rapids'}]
-        # setupQueryPortlet(assignment, u'Accessos ràpids', query, 4, False, u"")
-
-        # assignment = setPortletAssignment(1, dummypage, 'publicitat', QueryPortletAssignment)
-        # query = [{u'i': u'portal_type', u'o': u'plone.app.querystring.operation.selection.is', u'v': [u'BannerEsports']},
-        #          {u'i': u'path', u'o': u'plone.app.querystring.operation.string.path', u'v': u'/gestio/homepage/publicitat'}]
-        # setupQueryPortlet(assignment, u'Publicitat', query, 2, False, u"")
-
-        # assignment = setPortletAssignment(2, dummypage, 'destacats', QueryPortletAssignment, span=12)
-        # query = [{u'i': u'portal_type', u'o': u'plone.app.querystring.operation.selection.is', u'v': [u'Destacat']},
-        #          {u'i': u'path', u'o': u'plone.app.querystring.operation.string.path', u'v': u'/gestio/destacats'}]
-        # setupQueryPortlet(assignment, u'Destacats', query, 4, False, u"")
-
-        # assignment = setPortletAssignment(5, dummypage, 'noticies', QueryPortletAssignment, span=6)
-        # query = [{u'i': u'portal_type', u'o': u'plone.app.querystring.operation.selection.is', u'v': [u'News Item']},
-        #          {u'i': u'path', u'o': u'plone.app.querystring.operation.string.path', u'v': u'/noticies'}]
-        # setupQueryPortlet(assignment, u'Notícies', query, 5, False, u"")
-
-        # assignment = setPortletAssignment(6, dummypage, 'agenda', QueryPortletAssignment, span=6)
-        # query = [{u'i': u'portal_type', u'o': u'plone.app.querystring.operation.selection.is', u'v': [u'Event']},
-        #          {u'i': u'path', u'o': u'plone.app.querystring.operation.string.path', u'v': u'/agenda'}]
-        # setupQueryPortlet(assignment, u'Agenda', query, 5, False, u"")
-
+        spanstorage.span = '4'    
+        
+                   
         return 'Created'
