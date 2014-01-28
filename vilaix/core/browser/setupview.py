@@ -106,7 +106,7 @@ class setupHomePage(grok.View):
         portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager10')
         spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
         spanstorage.span = '4'    
-        
+
         return 'Done.'
 
 #Setup inicial per crear continguts al genweb Vilaix
@@ -345,16 +345,16 @@ class SetupView(grok.View):
       
         #Carrousel
         obj = portal_catalog.searchResults(portal_type = 'Folder',
-                                            path = path + '/material-multimedia/carrousel')
+                                            path = path + '/material-multimedia/carroussel')
         if obj.actual_result_count == 0:  
             res = portal_catalog.searchResults(id = 'material-multimedia')
             if res:
                 material_multimedia = res[0].getObject()         
-            carrousel = self.newFolder(material_multimedia, 'carrousel', u'Carroussel')
-            carrousel.language = pl.getDefaultLanguage()
-            carrousel.exclude_from_nav = True
-            self.publish(carrousel)       
-            carrousel.reindexObject()
+            carroussel = self.newFolder(material_multimedia, 'carroussel', u'Carroussel')
+            carroussel.language = pl.getDefaultLanguage()
+            carroussel.exclude_from_nav = True
+            self.publish(carroussel)       
+            carroussel.reindexObject()
 
         #Imatges Capçalera
         obj = portal_catalog.searchResults(portal_type = 'Folder',
