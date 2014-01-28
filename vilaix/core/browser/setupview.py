@@ -46,48 +46,68 @@ else:
 # from serveiesports.theme.portlets.queryportlet import Assignment as QueryPortletAssignment
 # from serveiesports.theme.portlets.utils import setupQueryPortlet, setPortletAssignment
 
-# class setupHomePage(grok.View):
-#     grok.context(IPloneSiteRoot)
-#     grok.require('zope2.ViewManagementScreens')
-#     grok.name("setup-portlets")
+class setupHomePage(grok.View):
+    grok.context(IPloneSiteRoot)
+    grok.require('zope2.ViewManagementScreens')
+    grok.name("setup-portlets")
 
-#     def render(self):
-#         portal = getSite()
-#         frontpage = portal['front-page']
-#         # Add portlets programatically
-#         # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager2', context=frontpage)
-#         # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
-#         # from vilaix.theme.portlets.noticiaDestacada import Assignment as noticiaDestacadaAssignment        
-#         # target_manager_assignments['noticiaDestacada'] = noticiaDestacadaAssignment()
+    def render(self):
+        portal = getSite()
+        frontpage = portal['front-page']
+
+         # Add portlets programatically
+        from vilaix.theme.portlets.noticiaDestacada import Assignment as noticiaDestacadaAssignment 
+        from vilaix.theme.portlets.news import Assignment as noticiaAssignment 
+        from vilaix.theme.portlets.bannersportlet import Assignment as bannersVilaixAssignment
+        from vilaix.theme.portlets.agendaVilaix import Assignment as agendaVilaixAssignment
+        from vilaix.theme.portlets.navigationfixed import Assignment as navigationfixedAssignment
+        from plone.app.event.portlets.portlet_calendar import Assignment as calendarAssignment
+        
+
+        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager1', context=frontpage)
+        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        target_manager_assignments['navigationfixed'] = navigationfixedAssignment(root='/menu-lateral')
+        target_manager_assignments['bannersVilaix'] = bannersVilaixAssignment(content='/material-multimedia/banners/banners_esquerra')     
   
 
-#         # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager3', context=frontpage)
-#         # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
-#         # target_manager_assignments['buttons'] = homebuttonbarAssignment()
-#         # target_manager_assignments['max'] = maxAssignment()
+        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager2', context=frontpage)
+        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        target_manager_assignments['noticiaDestacada'] = noticiaDestacadaAssignment()        
+  
 
-#         portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager3')
-#         spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
-#         spanstorage.span = '8'
+        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager3', context=frontpage)
+        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        target_manager_assignments['noticies'] = noticiaAssignment()
+        
+        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager6', context=frontpage)
+        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        target_manager_assignments['bannersVilaix'] = bannersVilaixAssignment(content='/material-multimedia/banners/banners_dreta')
+        
+        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager7', context=frontpage)
+        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        target_manager_assignments['agendaVilaix'] = agendaVilaixAssignment() 
 
-#         portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager6')
-#         spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
-#         spanstorage.span = '4'
+        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager10', context=frontpage)
+        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        target_manager_assignments['calendari'] = calendarAssignment(state='published')
 
-#         portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager7')
-#         spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
-#         spanstorage.span = '8'
+        portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager3')
+        spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+        spanstorage.span = '8'
 
-#         portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager10')
-#         spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
-#         spanstorage.span = '4'
+        portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager6')
+        spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+        spanstorage.span = '4'
 
-#         # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager4', context=frontpage)
-#         # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
-#         # target_manager_assignments['calendar'] = calendarAssignment()
-#         # target_manager_assignments['stats'] = statsAssignment()
-#         # target_manager_assignments['econnect'] = econnectAssignment()
-#         return 'Done.'
+        portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager7')
+        spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+        spanstorage.span = '8'
+
+        portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager10')
+        spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+        spanstorage.span = '4'    
+        
+        return 'Done.'
 
 #Setup inicial per crear continguts al genweb Vilaix
 class SetupView(grok.View):
@@ -403,57 +423,57 @@ class SetupView(grok.View):
             tramits.reindexObject()    
 
 
-        # Add portlets programatically
-        from vilaix.theme.portlets.noticiaDestacada import Assignment as noticiaDestacadaAssignment 
-        from vilaix.theme.portlets.news import Assignment as noticiaAssignment 
-        from vilaix.theme.portlets.bannersportlet import Assignment as bannersVilaixAssignment
-        from vilaix.theme.portlets.agendaVilaix import Assignment as agendaVilaixAssignment
-        from vilaix.theme.portlets.navigationfixed import Assignment as navigationfixedAssignment
-        from plone.app.event.portlets.portlet_calendar import Assignment as calendarAssignment
+        # # Add portlets programatically
+        # from vilaix.theme.portlets.noticiaDestacada import Assignment as noticiaDestacadaAssignment 
+        # from vilaix.theme.portlets.news import Assignment as noticiaAssignment 
+        # from vilaix.theme.portlets.bannersportlet import Assignment as bannersVilaixAssignment
+        # from vilaix.theme.portlets.agendaVilaix import Assignment as agendaVilaixAssignment
+        # from vilaix.theme.portlets.navigationfixed import Assignment as navigationfixedAssignment
+        # from plone.app.event.portlets.portlet_calendar import Assignment as calendarAssignment
         
 
-        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager1', context=frontpage)
-        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
-        target_manager_assignments['navigationfixed'] = navigationfixedAssignment(root='/menu-lateral')
-        target_manager_assignments['bannersVilaix'] = bannersVilaixAssignment(content='/material-multimedia/banners/banners_esquerra')     
+        # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager1', context=frontpage)
+        # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        # target_manager_assignments['navigationfixed'] = navigationfixedAssignment(root='/menu-lateral')
+        # target_manager_assignments['bannersVilaix'] = bannersVilaixAssignment(content='/material-multimedia/banners/banners_esquerra')     
   
 
-        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager2', context=frontpage)
-        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
-        target_manager_assignments['noticiaDestacada'] = noticiaDestacadaAssignment()        
+        # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager2', context=frontpage)
+        # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        # target_manager_assignments['noticiaDestacada'] = noticiaDestacadaAssignment()        
   
 
-        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager3', context=frontpage)
-        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
-        target_manager_assignments['noticies'] = noticiaAssignment()
+        # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager3', context=frontpage)
+        # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        # target_manager_assignments['noticies'] = noticiaAssignment()
         
-        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager6', context=frontpage)
-        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
-        target_manager_assignments['bannersVilaix'] = bannersVilaixAssignment(content='/material-multimedia/banners/banners_dreta')
+        # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager6', context=frontpage)
+        # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        # target_manager_assignments['bannersVilaix'] = bannersVilaixAssignment(content='/material-multimedia/banners/banners_dreta')
         
-        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager7', context=frontpage)
-        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
-        target_manager_assignments['agendaVilaix'] = agendaVilaixAssignment() 
+        # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager7', context=frontpage)
+        # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        # target_manager_assignments['agendaVilaix'] = agendaVilaixAssignment() 
 
-        target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager10', context=frontpage)
-        target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
-        target_manager_assignments['calendari'] = calendarAssignment(state='published')
+        # target_manager = queryUtility(IPortletManager, name='genweb.portlets.HomePortletManager10', context=frontpage)
+        # target_manager_assignments = getMultiAdapter((frontpage, target_manager), IPortletAssignmentMapping)
+        # target_manager_assignments['calendari'] = calendarAssignment(state='published')
 
-        portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager3')
-        spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
-        spanstorage.span = '8'
+        # portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager3')
+        # spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+        # spanstorage.span = '8'
 
-        portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager6')
-        spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
-        spanstorage.span = '4'
+        # portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager6')
+        # spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+        # spanstorage.span = '4'
 
-        portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager7')
-        spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
-        spanstorage.span = '8'
+        # portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager7')
+        # spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+        # spanstorage.span = '8'
 
-        portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager10')
-        spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
-        spanstorage.span = '4'    
+        # portletManager = getUtility(IPortletManager, 'genweb.portlets.HomePortletManager10')
+        # spanstorage = getMultiAdapter((frontpage, portletManager), ISpanStorage)
+        # spanstorage.span = '4'    
         
                    
         return 'Created'
