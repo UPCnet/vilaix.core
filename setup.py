@@ -27,6 +27,7 @@ setup(name='vilaix.core',
           'setuptools',
           'vilaix.theme',
           'plone.app.dexterity',
+          'loremipsum'
       ],
       entry_points="""
       # -*- Entry points: -*-
