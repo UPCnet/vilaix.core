@@ -42,7 +42,7 @@ else:
     HAS_DXCT = True
     from plone.dexterity.utils import createContentInContainer
 
-
+from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
 # from serveiesports.theme.portlets.queryportlet import Assignment as QueryPortletAssignment
 # from serveiesports.theme.portlets.utils import setupQueryPortlet, setPortletAssignment
 
@@ -215,6 +215,11 @@ class SetupView(grok.View):
             noticies.exclude_from_nav = True
             self.publish(noticies)
 
+            behavior = ISelectableConstrainTypes(noticies)
+            behavior.setConstrainTypesMode(1)
+            behavior.setLocallyAllowedTypes(('Collection', 'News Item'))
+            behavior.setImmediatelyAddableTypes(('Collection', 'News Item'))
+
             noticies_destacades = self.newCollection(noticies, 'noticies-destacades', u'Noticies Destacades', query = [{u'i': u'portal_type', u'o': u'plone.app.querystring.operation.selection.is', u'v': [u'News Item']},
                                                                                                                        {u'i': u'review_state', u'o': u'plone.app.querystring.operation.selection.is', u'v': u'published'},
                                                                                                                        {u'i': u'destacat', u'o': u'plone.app.querystring.operation.boolean.isTrue', u'v': u'Sí'}])
@@ -222,7 +227,8 @@ class SetupView(grok.View):
 
             noticies = self.newCollection(noticies, 'noticies', u'Noticies', query = [{u'i': u'portal_type', u'o': u'plone.app.querystring.operation.selection.is', u'v': [u'News Item']},
                                                                                       {u'i': u'review_state', u'o': u'plone.app.querystring.operation.selection.is', u'v': u'published'}])
-            self.publish(noticies)
+            self.publish(noticies)        
+       
 
         obj = portal_catalog.searchResults(portal_type = 'Folder',
                                             path = path + '/esdeveniments')
@@ -232,10 +238,16 @@ class SetupView(grok.View):
             esdeveniments.exclude_from_nav = True
             self.publish(esdeveniments)
 
+            behavior = ISelectableConstrainTypes(esdeveniments)
+            behavior.setConstrainTypesMode(1)
+            behavior.setLocallyAllowedTypes(('Collection', 'Event'))
+            behavior.setImmediatelyAddableTypes(('Collection', 'Event')) 
+
             esdeveniments = self.newCollection(esdeveniments, 'esdeveniments', u'Esdeveniments', query = [{u'i': u'portal_type', u'o': u'plone.app.querystring.operation.selection.is', u'v': [u'Event']},
                                                                                                           {u'i': u'review_state', u'o': u'plone.app.querystring.operation.selection.is', u'v': u'published'}])
             
-            self.publish(esdeveniments)          
+            self.publish(esdeveniments)  
+             
                      
         #Menú principal
         obj = portal_catalog.searchResults(portal_type = 'Folder',
@@ -330,6 +342,11 @@ class SetupView(grok.View):
             self.publish(slider)       
             slider.reindexObject()
 
+            behavior = ISelectableConstrainTypes(slider)
+            behavior.setConstrainTypesMode(1)
+            behavior.setLocallyAllowedTypes(('Folder', 'Slider'))
+            behavior.setImmediatelyAddableTypes(('Folder', 'Slider'))      
+
         #Banners
         obj = portal_catalog.searchResults(portal_type = 'Folder',
                                             path = path + '/material-multimedia/banners')
@@ -342,6 +359,11 @@ class SetupView(grok.View):
             banners.exclude_from_nav = True
             self.publish(banners)       
             banners.reindexObject()
+
+            behavior = ISelectableConstrainTypes(banners)
+            behavior.setConstrainTypesMode(1)
+            behavior.setLocallyAllowedTypes(('Banner', 'BannerContainer'))
+            behavior.setImmediatelyAddableTypes(('Banner', 'BannerContainer'))  
       
         #Carrousel
         obj = portal_catalog.searchResults(portal_type = 'Folder',
@@ -356,6 +378,11 @@ class SetupView(grok.View):
             self.publish(carroussel)       
             carroussel.reindexObject()
 
+            behavior = ISelectableConstrainTypes(carroussel)
+            behavior.setConstrainTypesMode(1)
+            behavior.setLocallyAllowedTypes(('Carrousel', 'BannerContainer'))
+            behavior.setImmediatelyAddableTypes(('Carrousel', 'BannerContainer'))  
+
         #Imatges Capçalera
         obj = portal_catalog.searchResults(portal_type = 'Folder',
                                             path = path + '/material-multimedia/imatges-capcalera')
@@ -368,6 +395,11 @@ class SetupView(grok.View):
             imatges_capcalera.exclude_from_nav = True
             self.publish(imatges_capcalera)       
             imatges_capcalera.reindexObject()    
+
+            behavior = ISelectableConstrainTypes(imatges_capcalera)
+            behavior.setConstrainTypesMode(1)
+            behavior.setLocallyAllowedTypes(('Folder', 'Image'))
+            behavior.setImmediatelyAddableTypes(('Folder', 'Image'))  
 
         #Banners dreta
         obj = portal_catalog.searchResults(portal_type = 'BannerContainer',
@@ -411,6 +443,11 @@ class SetupView(grok.View):
             self.publish(directori_equipaments)       
             directori_equipaments.reindexObject()    
 
+            behavior = ISelectableConstrainTypes(directori_equipaments)
+            behavior.setConstrainTypesMode(1)
+            behavior.setLocallyAllowedTypes(('Folder', 'Equipament'))
+            behavior.setImmediatelyAddableTypes(('Folder', 'Equipament'))  
+
     
         #Tràmits
         obj = portal_catalog.searchResults(portal_type = 'Folder',
@@ -421,6 +458,11 @@ class SetupView(grok.View):
             tramits.exclude_from_nav = True
             self.publish(tramits)       
             tramits.reindexObject()    
+
+            behavior = ISelectableConstrainTypes(tramits)
+            behavior.setConstrainTypesMode(1)
+            behavior.setLocallyAllowedTypes(('Folder', 'Tramit'))
+            behavior.setImmediatelyAddableTypes(('Folder', 'Tramit'))  
 
 
         # # Add portlets programatically
