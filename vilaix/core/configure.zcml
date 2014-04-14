@@ -69,4 +69,6 @@
 
   <!-- <include package=".browser" /> -->
     
+  
+    <include package=".browser" />
 </configure>

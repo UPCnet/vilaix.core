@@ -1,4 +1,5 @@
 # # -*- extra stuff goes here -*-
+from patches2 import addzmiplonesite
 from vilaix.core.content.content import ContainerCollection
 from vilaix.core.content.content import Equipament
 from vilaix.core.content.content import Tramit
