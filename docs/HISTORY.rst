@@ -5,9 +5,3 @@ Changelog
 ------------------
 
 - Nothing changed yet.
-
-
-1.0dev (unreleased)
--------------------
-
-- Initial release
