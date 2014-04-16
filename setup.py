@@ -31,7 +31,6 @@ setup(name='vilaix.core',
           'plone.app.dexterity',
           'loremipsum',
           'upc.genweb.banners',
-          'upc.genweb.logosfooter',
           'collective.portlet.twitter'
       ],
       entry_points="""
