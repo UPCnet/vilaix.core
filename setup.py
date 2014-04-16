@@ -3,17 +3,19 @@ import os
 
 version = '1.0'
 
+README = open("README.rst").read()
+HISTORY = open(os.path.join("docs", "HISTORY.rst")).read()
+
 setup(name='vilaix.core',
       version=version,
       description="",
-      long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      long_description=README + "\n" + HISTORY,
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
-        "Framework :: Plone",
-        "Programming Language :: Python",
-        ],
+          "Framework :: Plone",
+          "Programming Language :: Python",
+      ],
       keywords='core vilaix',
       author='UPCnet Plone Team',
       author_email='plone.team@upcnet.es',

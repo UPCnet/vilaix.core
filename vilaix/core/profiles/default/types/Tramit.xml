@@ -2,7 +2,7 @@
 <object name="Tramit" meta_type="Dexterity FTI" i18n:domain="plone"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title" i18n:translate="">Tramit</property>
- <property name="description" i18n:translate=""></property> 
+ <property name="description" i18n:translate=""></property>
  <property name="icon_expr"></property>
  <property name="factory">Tramit</property>
  <property name="add_view_expr">string:${folder_url}/++add++Tramit</property>
@@ -23,9 +23,9 @@
   <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="plone.app.dexterity.behaviors.discussion.IAllowDiscussion"/>
-  <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation"/>   
+  <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation"/>
  </property>
- <property name="schema">vilaix.core.interfaces.ITramit</property>
+ <property name="schema">vilaix.core.content.tramit.ITramit</property>
 
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="@@edit"/>

@@ -9,7 +9,7 @@ from plone.namedfile.field import NamedImage
 from plone.namedfile.field import NamedFile
 
 from zope.i18nmessageid import MessageFactory
-_ = MessageFactory("serveiesports")
+_ = MessageFactory("vilaix")
 
 
 class ITramit(form.Schema):
@@ -75,7 +75,7 @@ class ITramit(form.Schema):
         description=_(u"Indiqueu quin és l'organisme responsable d'aquest tràmit."),
         required=False,
     )
-    
+
     inici = schema.TextLine(
         title=_(u"Enllaç per iniciar el tràmit electrònicament"),
         description=_(u"Indiqueu l'enllàç per iniciar el tràmit electrònicament."),

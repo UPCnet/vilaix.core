@@ -1,8 +1,9 @@
 from zope.interface import Interface
-# -*- Additional Imports Here -*-
+
+
+class IVilaixCore(Interface):
+    """ Marker for vilaix core package """
 
 
 class ICarrousel(Interface):
     """Description of the Example Type"""
-
-    # -*- schema definition goes here -*-

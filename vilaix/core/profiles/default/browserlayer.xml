@@ -1,0 +1,6 @@
+<layers>
+    <layer
+     name="VilaixCoreLayer"
+     interface="vilaix.core.interfaces.IVilaixCore"
+     />
+</layers>

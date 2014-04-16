@@ -8,7 +8,7 @@ from plone.app.textfield import RichText
 from plone.namedfile.field import NamedImage
 
 from zope.i18nmessageid import MessageFactory
-_ = MessageFactory("vilaix.core")
+_ = MessageFactory("vilaix")
 
 
 class ISlider(form.Schema):
@@ -25,7 +25,7 @@ class ISlider(form.Schema):
     #     title=_(u"URLdesti"),
     #     description=_(u"Afegeix la url que cal obrir"),
     #     required=False,
-    # )   
+    # )
 
     # Obrirennovafinestra = schema.Bool(
     #     title=_(u"Obrirennovafinestra"),

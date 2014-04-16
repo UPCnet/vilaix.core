@@ -12,9 +12,9 @@ from plone.app.querystring.querybuilder import QueryBuilder
 from Acquisition import aq_parent, aq_inner
 from plone.app.collection.interfaces import ICollection
 
-from vilaix.core.interfaces import IEquipament
-from vilaix.core.interfaces import ITramit
-from vilaix.core.interfaces import ISlider
+from vilaix.core.content import IEquipament
+from vilaix.core.content import ITramit
+from vilaix.core.content import ISlider
 
 
 class ContainerCollection(Container, Collection):

@@ -8,7 +8,7 @@ from plone.app.textfield import RichText
 from plone.namedfile.field import NamedImage
 
 from zope.i18nmessageid import MessageFactory
-_ = MessageFactory("serveiesports")
+_ = MessageFactory("vilaix")
 
 
 class IEquipament(form.Schema):
@@ -85,6 +85,6 @@ class IEquipament(form.Schema):
     ubicacio_iframe = RichText(
         title=_(u"geoLocalització"),
         description=_(u"Enganxa iframe de google maps si la ubicació no surt correctament"),
-        required=False,       
+        required=False,
     )
-    
+

@@ -11,10 +11,7 @@ from plone.directives import form
 
 from zope import schema
 
-
 from plone.app.textfield import RichText
-
-from plone.app.textfield.value import RichTextValue
 
 
 class IRichDescription(form.Schema):
@@ -30,11 +27,10 @@ class IRichDescription(form.Schema):
 alsoProvides(IRichDescription, form.IFormFieldProvider)
 
 
-
 class INewDestacada(form.Schema):
     """Add tags to content
     """
-   
+
     destacat = schema.Bool(
         title=u"Destacat",
         description=u"Noticia destacada",

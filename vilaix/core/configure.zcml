@@ -10,9 +10,9 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
-  <includeDependencies package="." />   
+  <includeDependencies package="." />
 
-  <include package=".content" />  
+  <include package=".content" />
   <include package="collective.monkeypatcher" />
 
   <monkey:patch
@@ -32,8 +32,6 @@
   <!-- Grok the package to initialise schema interfaces and content classes -->
     <grok:grok package="." />
 
-  <!-- -*- extra stuff goes here -*- -->
-
   <genericsetup:registerProfile
       name="default"
       title="vilaix.core"
@@ -47,8 +45,8 @@
     <include package="plone.behavior" file="meta.zcml" />
 
     <include package="plone.directives.form" file="meta.zcml" />
-    <include package="plone.directives.form" />    
-    
+    <include package="plone.directives.form" />
+
     <grok:grok package=".behaviors" />
 
     <plone:behavior
@@ -67,8 +65,6 @@
 
         />
 
-  <!-- <include package=".browser" /> -->
-    
-  
     <include package=".browser" />
+
 </configure>

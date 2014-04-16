@@ -12,7 +12,7 @@ import pkg_resources
 from genweb.core.interfaces import IHomePage
 from zope.component.hooks import getSite
 
-from zope.interface import alsoProvides 
+from zope.interface import alsoProvides
 from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
 
 from datetime import datetime
@@ -26,6 +26,7 @@ else:
     HAS_DXCT = True
     from plone.dexterity.utils import createContentInContainer
 
+
 def createOrGetObject(context, newid, title, type_name):
     if newid in context.contentIds():
         obj = context[newid]
@@ -37,12 +38,14 @@ def createOrGetObject(context, newid, title, type_name):
         obj.reindexObject()
     return obj
 
+
 def newCollection(context, newid, title, query=None):
     collection = createOrGetObject(context, newid, title, u'Collection')
-    if query is not None:            
+    if query is not None:
         collection.query = query
         collection.reindexObject()
     return collection
+
 
 def newFolder(context, newid, title, type_name=u'Folder'):
     return createOrGetObject(context, newid, title, type_name)
@@ -68,9 +71,8 @@ def setupVarious(context):
     # nasty = transform.get_parameter_value('nasty_tags')
     #import ipdb; ipdb.set_trace()
 
-    
     portal = context.getSite()
-    
+
     # Delete old AT folders
     if getattr(portal, 'events', None):
         if portal.events.__class__.__name__ == 'ATFolder':
@@ -91,16 +93,16 @@ def setupVarious(context):
 
     urltool = getToolByName(portal, 'portal_url')
     portal_catalog = getToolByName(portal, 'portal_catalog')
-    path = urltool.getPortalPath() 
+    path = urltool.getPortalPath()
 
     obj = portal_catalog.searchResults(portal_type = 'Folder',
                                         path = path + '/menu-principal')
-    if obj.actual_result_count == 0: 
-    
-        if HAS_DXCT:       
+    if obj.actual_result_count == 0:
+
+        if HAS_DXCT:
             portal = getSite()
             pl = getToolByName(portal, 'portal_languages')
-            workflowTool = getToolByName(portal, "portal_workflow")   
+            workflowTool = getToolByName(portal, "portal_workflow")
             if getattr(portal, 'front-page', False):
                 portal.manage_delObjects('front-page')
                 frontpage = createContentInContainer(portal, 'Document', title=u"front-page", checkConstraints=False)
@@ -110,90 +112,90 @@ def setupVarious(context):
                 workflowTool.doActionFor(frontpage, "publish")
                 frontpage.reindexObject()
             # Set the default page to the homepage view
-            portal.setDefaultPage('homepage')        
-            
-    #         #Crear carpetes i contingut necessari per al funcionament del tema
-    #         urltool = getToolByName(portal, 'portal_url')        
-    #         portal_catalog = getToolByName(portal, 'portal_catalog')
-    #         path = urltool.getPortalPath() 
-    #         portal = getSite()
-    #         obj = []   
+            portal.setDefaultPage('homepage')
 
-    # #         workflowTool = getToolByName(portal, "portal_workflow")   
+    #         #Crear carpetes i contingut necessari per al funcionament del tema
+    #         urltool = getToolByName(portal, 'portal_url')
+    #         portal_catalog = getToolByName(portal, 'portal_catalog')
+    #         path = urltool.getPortalPath()
+    #         portal = getSite()
+    #         obj = []
+
+    # #         workflowTool = getToolByName(portal, "portal_workflow")
 
     # #         # #Actualitat
     # #         obj = portal_catalog.searchResults(portal_type = 'Folder',
     # #                                            path = path + '/actualitat')
-    # #         if obj.actual_result_count == 0:                                   
+    # #         if obj.actual_result_count == 0:
     # #             actualitat = createContentInContainer(portal, 'Folder', title=u"Actualitat", checkConstraints=False)
     # #             actualitat.language = pl.getDefaultLanguage()
     # #             actualitat.exclude_from_nav = True
     # #             workflowTool.doActionFor(actualitat, "publish")
-    # #             actualitat.reindexObject()   
+    # #             actualitat.reindexObject()
 
     #         #Noticias
     #         obj = portal_catalog.searchResults(portal_type = 'Folder',
     #                                            path = path + '/noticies')
-    #         if obj.actual_result_count == 0:                                   
+    #         if obj.actual_result_count == 0:
     #             noticies = createContentInContainer(portal, 'Folder', title=u"Notícies", checkConstraints=False)
     #             noticies.language = pl.getDefaultLanguage()
     #             noticies.exclude_from_nav = True
     #             workflowTool.doActionFor(noticies, "publish")
-    #             noticies.reindexObject()   
+    #             noticies.reindexObject()
 
     #         #Collection Noticias
     #         obj = portal_catalog.searchResults(portal_type = 'Collection',
     #                                            path = path + '/noticies/noticies')
-    #         if obj.actual_result_count == 0:                                   
+    #         if obj.actual_result_count == 0:
     #             noticies = createContentInContainer(noticies, 'Collection', title=u"Notícies", checkConstraints=False)
     #             noticies.language = pl.getDefaultLanguage()
     #             noticies.exclude_from_nav = True
     #             workflowTool.doActionFor(noticies, "publish")
-    #             noticies.reindexObject()  
+    #             noticies.reindexObject()
 
     #         #esdeveniments
     #         obj = portal_catalog.searchResults(portal_type = 'Folder',
     #                                            path = path + '/esdeveniments')
-    #         if obj.actual_result_count == 0:                                   
+    #         if obj.actual_result_count == 0:
     #             esdeveniments = createContentInContainer(portal, 'Folder', title=u"Esdeveniments", checkConstraints=False)
     #             esdeveniments.language = pl.getDefaultLanguage()
     #             esdeveniments.exclude_from_nav = True
     #             workflowTool.doActionFor(esdeveniments, "publish")
-    #             esdeveniments.reindexObject()   
-            
+    #             esdeveniments.reindexObject()
+
     #         #Collection esdeveniments
     #         obj = portal_catalog.searchResults(portal_type = 'Collection',
     #                                            path = path + '/esdeveniments/esdeveniments')
-    #         if obj.actual_result_count == 0:                                   
+    #         if obj.actual_result_count == 0:
     #             esdeveniments = createContentInContainer(esdeveniments, 'Collection', title=u"Esdeveniments", checkConstraints=False)
     #             esdeveniments.language = pl.getDefaultLanguage()
     #             esdeveniments.exclude_from_nav = True
     #             workflowTool.doActionFor(esdeveniments, "publish")
-    #             esdeveniments.reindexObject()   
-            
-    #         urltool = getToolByName(portal, 'portal_url')        
+    #             esdeveniments.reindexObject()
+
+    #         urltool = getToolByName(portal, 'portal_url')
     #         portal_catalog = getToolByName(portal, 'portal_catalog')
-    #         path = urltool.getPortalPath() 
+    #         path = urltool.getPortalPath()
     #         workflowTool = getToolByName(portal, "portal_workflow")
-            
-            
+
+
     #         # noticies = newFolder(portal, 'noticies', 'Noticies')
     #         # noticies.description = 'Noticies del lloc'
     #         # noticies.exclude_from_nav = True
     #         # workflowTool.doActionFor(noticies, "publish")
-       
+
 
     #         # noticies_destacades = newCollection(noticies, 'noticies-destacades', u'Noticies Destacades', query = [{u'i': u'portal_type', u'o': u'plone.app.querystring.operation.selection.is', u'v': [u'News Item']},
     #         #                                                                                                            {u'i': u'review_state', u'o': u'plone.app.querystring.operation.selection.is', u'v': u'published'},
     #         #                                                                                                            {u'i': u'destacat', u'o': u'plone.app.querystring.operation.boolean.isTrue', u'v': u'Sí'}])
     #         # workflowTool.doActionFor(noticies_destacades, "publish")
-       
+
 
     #         # noticies = newCollection(noticies, 'noticies', u'Noticies', query = [{u'i': u'portal_type', u'o': u'plone.app.querystring.operation.selection.is', u'v': [u'News Item']},
     #         #                                                                           {u'i': u'review_state', u'o': u'plone.app.querystring.operation.selection.is', u'v': u'published'}])
     #         # workflowTool.doActionFor(noticies, "publish")
 
-            
+
     #         # esdeveniments = newFolder(portal, 'esdeveniments', 'Esdeveniments')
     #         # esdeveniments.description = 'Esdeveniments del lloc'
     #         # esdeveniments.exclude_from_nav = True
@@ -201,14 +203,14 @@ def setupVarious(context):
 
     #         # esdeveniments = newCollection(esdeveniments, 'esdeveniments', u'Esdeveniments', query = [{u'i': u'portal_type', u'o': u'plone.app.querystring.operation.selection.is', u'v': [u'Event']},
     #         #                                                                                               {u'i': u'review_state', u'o': u'plone.app.querystring.operation.selection.is', u'v': u'published'}])
-            
+
     #         # workflowTool.doActionFor(esdeveniments, "publish")
 
 
     #         #Menú principal
     #         obj = portal_catalog.searchResults(portal_type = 'Folder',
     #                                            path = path + '/menu-principal')
-    #         if obj.actual_result_count == 0:                                   
+    #         if obj.actual_result_count == 0:
     #             menu_principal = createContentInContainer(portal, 'Folder', title=u"Menú principal", checkConstraints=False)
     #             menu_principal.language = pl.getDefaultLanguage()
     #             menu_principal.exclude_from_nav = True
@@ -216,165 +218,165 @@ def setupVarious(context):
     #             alsoProvides(menu_principal, IHideFromBreadcrumbs)
     #             menu_principal.reindexObject()
     #             ajuntament = createContentInContainer(menu_principal, 'Folder', title=u"Ajuntament", checkConstraints=False)
-    #             ajuntament.language = pl.getDefaultLanguage()       
+    #             ajuntament.language = pl.getDefaultLanguage()
     #             workflowTool.doActionFor(ajuntament, "publish")
-    #             ajuntament.reindexObject()  
+    #             ajuntament.reindexObject()
     #             informacio_municipal = createContentInContainer(menu_principal, 'Folder', title=u"Informació Municipal", checkConstraints=False)
-    #             informacio_municipal.language = pl.getDefaultLanguage()       
+    #             informacio_municipal.language = pl.getDefaultLanguage()
     #             workflowTool.doActionFor(informacio_municipal, "publish")
-    #             informacio_municipal.reindexObject()  
+    #             informacio_municipal.reindexObject()
     #             seu_electronica = createContentInContainer(menu_principal, 'Folder', title=u"Seu electrònica", checkConstraints=False)
-    #             seu_electronica.language = pl.getDefaultLanguage()       
+    #             seu_electronica.language = pl.getDefaultLanguage()
     #             workflowTool.doActionFor(seu_electronica, "publish")
-    #             seu_electronica.reindexObject()    
+    #             seu_electronica.reindexObject()
     #             guia_de_la_ciutat = createContentInContainer(menu_principal, 'Folder', title=u"Guia de la ciutat", checkConstraints=False)
-    #             guia_de_la_ciutat.language = pl.getDefaultLanguage()       
+    #             guia_de_la_ciutat.language = pl.getDefaultLanguage()
     #             workflowTool.doActionFor(guia_de_la_ciutat, "publish")
-    #             guia_de_la_ciutat.reindexObject()    
+    #             guia_de_la_ciutat.reindexObject()
     #             borsa_de_treball = createContentInContainer(menu_principal, 'Folder', title=u"Borsa de treball", checkConstraints=False)
-    #             borsa_de_treball.language = pl.getDefaultLanguage()       
+    #             borsa_de_treball.language = pl.getDefaultLanguage()
     #             workflowTool.doActionFor(borsa_de_treball, "publish")
     #             borsa_de_treball.reindexObject()
 
     #         #Menú Lateral
     #         obj = portal_catalog.searchResults(portal_type = 'Folder',
     #                                            path = path + '/menu-lateral')
-    #         if obj.actual_result_count == 0:                                   
+    #         if obj.actual_result_count == 0:
     #             menu_lateral = createContentInContainer(portal, 'Folder', title=u"Menú Lateral", checkConstraints=False)
     #             menu_lateral.language = pl.getDefaultLanguage()
     #             menu_lateral.exclude_from_nav = True
     #             workflowTool.doActionFor(menu_lateral, "publish")
-    #             alsoProvides(menu_lateral, IHideFromBreadcrumbs) 
-    #             menu_lateral.reindexObject()   
+    #             alsoProvides(menu_lateral, IHideFromBreadcrumbs)
+    #             menu_lateral.reindexObject()
     #             la_ciutat_per_temes = createContentInContainer(menu_lateral, 'Folder', title=u"La ciutat per temes", checkConstraints=False)
-    #             la_ciutat_per_temes.language = pl.getDefaultLanguage()       
+    #             la_ciutat_per_temes.language = pl.getDefaultLanguage()
     #             workflowTool.doActionFor(la_ciutat_per_temes, "publish")
-    #             la_ciutat_per_temes.reindexObject()   
+    #             la_ciutat_per_temes.reindexObject()
     #             la_ciutat_per_les_persones = createContentInContainer(menu_lateral, 'Folder', title=u"La ciutat i les persones", checkConstraints=False)
-    #             la_ciutat_per_les_persones.language = pl.getDefaultLanguage()       
+    #             la_ciutat_per_les_persones.language = pl.getDefaultLanguage()
     #             workflowTool.doActionFor(la_ciutat_per_les_persones, "publish")
     #             la_ciutat_per_les_persones.reindexObject()
     #             la_ciutat_per_xifres = createContentInContainer(menu_lateral, 'Folder', title=u"La ciutat en xifres", checkConstraints=False)
-    #             la_ciutat_per_xifres.language = pl.getDefaultLanguage()       
+    #             la_ciutat_per_xifres.language = pl.getDefaultLanguage()
     #             workflowTool.doActionFor(la_ciutat_per_xifres, "publish")
     #             la_ciutat_per_xifres.reindexObject()
     #             la_ciutat_per_districtes = createContentInContainer(menu_lateral, 'Folder', title=u"La ciutat per districtes", checkConstraints=False)
-    #             la_ciutat_per_districtes.language = pl.getDefaultLanguage()       
+    #             la_ciutat_per_districtes.language = pl.getDefaultLanguage()
     #             workflowTool.doActionFor(la_ciutat_per_districtes, "publish")
-    #             la_ciutat_per_districtes.reindexObject()  
+    #             la_ciutat_per_districtes.reindexObject()
 
     #         #Material multimèdia
     #         obj = portal_catalog.searchResults(portal_type = 'Folder',
     #                                            path = path + '/material-multimedia')
-    #         if obj.actual_result_count == 0:                                   
+    #         if obj.actual_result_count == 0:
     #             material_multimedia = createContentInContainer(portal, 'Folder', title=u"Material multimèdia", checkConstraints=False)
     #             material_multimedia.language = pl.getDefaultLanguage()
     #             material_multimedia.exclude_from_nav = True
     #             workflowTool.doActionFor(material_multimedia, "publish")
-    #             material_multimedia.reindexObject()   
+    #             material_multimedia.reindexObject()
 
     #         #Slider
     #         obj = portal_catalog.searchResults(portal_type = 'Folder',
     #                                            path = path + '/sliders')
-    #         if obj.actual_result_count == 0:                                   
+    #         if obj.actual_result_count == 0:
     #             slider = createContentInContainer(material_multimedia, 'Folder', title=u"Sliders", checkConstraints=False)
     #             slider.language = pl.getDefaultLanguage()
     #             slider.exclude_from_nav = True
     #             workflowTool.doActionFor(slider, "publish")
-    #             slider.reindexObject()               
+    #             slider.reindexObject()
 
     #         #Banners
     #         obj = portal_catalog.searchResults(portal_type = 'Folder',
     #                                            path = path + '/banners')
-    #         if obj.actual_result_count == 0:                                   
+    #         if obj.actual_result_count == 0:
     #             banners = createContentInContainer(material_multimedia, 'Folder', title=u"Banners", checkConstraints=False)
     #             banners.language = pl.getDefaultLanguage()
     #             banners.exclude_from_nav = True
     #             workflowTool.doActionFor(banners, "publish")
-    #             banners.reindexObject()               
+    #             banners.reindexObject()
 
-            
+
     #         #Carrousel
     #         obj = portal_catalog.searchResults(portal_type = 'Folder',
     #                                            path = path + '/carrousel')
-    #         if obj.actual_result_count == 0:                                   
+    #         if obj.actual_result_count == 0:
     #             carrousel = createContentInContainer(material_multimedia, 'Folder', title=u"Carroussel", checkConstraints=False)
     #             carrousel.language = pl.getDefaultLanguage()
     #             carrousel.exclude_from_nav = True
     #             workflowTool.doActionFor(carrousel, "publish")
-    #             carrousel.reindexObject()   
-           
+    #             carrousel.reindexObject()
+
     #         #Imatges Capçalera
     #         obj = portal_catalog.searchResults(portal_type = 'Folder',
     #                                            path = path + '/imatges-capcalera')
-    #         if obj.actual_result_count == 0:                                   
+    #         if obj.actual_result_count == 0:
     #             imatges_capcalera = createContentInContainer(material_multimedia, 'Folder', title=u"Imatges capçalera", checkConstraints=False)
     #             imatges_capcalera.language = pl.getDefaultLanguage()
     #             imatges_capcalera.exclude_from_nav = True
     #             workflowTool.doActionFor(imatges_capcalera, "publish")
-    #             imatges_capcalera.reindexObject()  
-            
-            
+    #             imatges_capcalera.reindexObject()
+
+
     #         #Banners dreta
     #         obj = portal_catalog.searchResults(portal_type = 'BannerContainer',
     #                                            path = path + '/material-multimedia/banners/banners_dreta')
-    #         if obj.actual_result_count == 0:  
-    #             _createObjectByType('BannerContainer', banners, 'banners_dreta')  
+    #         if obj.actual_result_count == 0:
+    #             _createObjectByType('BannerContainer', banners, 'banners_dreta')
     #             banners['banners_dreta'].setExcludeFromNav(True)
     #             banners['banners_dreta'].setTitle('Banners-dreta')
     #             banners['banners_dreta'].reindexObject()
-    #             workflowTool.doActionFor(banners.banners_dreta, "publish")  
-    #             # _createObjectByType('Banner', portal['banners_dreta'], 'oficina_virtual')  
-    #             # obj = portal['banners_dreta']['oficina_virtual']  
+    #             workflowTool.doActionFor(banners.banners_dreta, "publish")
+    #             # _createObjectByType('Banner', portal['banners_dreta'], 'oficina_virtual')
+    #             # obj = portal['banners_dreta']['oficina_virtual']
     #             # obj.Title = 'Oficina Virtual'
     #             # obj.Obrirennovafinestra = True
-    #             # obj.URLdesti = "http://www.google.es"       
+    #             # obj.URLdesti = "http://www.google.es"
     #             # obj.setImatge = "/vilaix/theme/static/images/oficina_virtual.png"
-    #             # workflowTool.doActionFor(obj, "publish")  
-                
+    #             # workflowTool.doActionFor(obj, "publish")
+
     #         #Banners esquerra
     #         obj = portal_catalog.searchResults(portal_type = 'BannerContainer',
     #                                            path = path + '/material-multimedia/banners/banners_esquerra')
-    #         if obj.actual_result_count == 0:  
-    #             _createObjectByType('BannerContainer', banners, 'banners_esquerra')  
+    #         if obj.actual_result_count == 0:
+    #             _createObjectByType('BannerContainer', banners, 'banners_esquerra')
     #             banners['banners_esquerra'].setExcludeFromNav(True)
     #             banners['banners_esquerra'].setTitle('Banners-esquerra')
     #             banners['banners_esquerra'].reindexObject()
-    #             workflowTool.doActionFor(banners.banners_esquerra, "publish")          
-                
-            
+    #             workflowTool.doActionFor(banners.banners_esquerra, "publish")
+
+
     #         #Documents
     #         obj = portal_catalog.searchResults(portal_type = 'Folder',
     #                                            path = path + '/documents')
-    #         if obj.actual_result_count == 0:                                   
+    #         if obj.actual_result_count == 0:
     #             documents = createContentInContainer(portal, 'Folder', title=u"Documents", checkConstraints=False)
     #             documents.language = pl.getDefaultLanguage()
     #             documents.exclude_from_nav = True
     #             workflowTool.doActionFor(documents, "publish")
-    #             documents.reindexObject()     
-            
+    #             documents.reindexObject()
+
     #         #Directori equipaments
     #         obj = portal_catalog.searchResults(portal_type = 'Folder',
     #                                            path = path + '/directori-equipaments')
-    #         if obj.actual_result_count == 0:                                   
+    #         if obj.actual_result_count == 0:
     #             directori_equipaments = createContentInContainer(portal, 'Folder', title=u"Directori equipaments", checkConstraints=False)
     #             directori_equipaments.language = pl.getDefaultLanguage()
     #             directori_equipaments.exclude_from_nav = True
     #             workflowTool.doActionFor(directori_equipaments, "publish")
-    #             directori_equipaments.reindexObject()     
-                             
-            
+    #             directori_equipaments.reindexObject()
+
+
     #         #Tràmits
     #         obj = portal_catalog.searchResults(portal_type = 'Folder',
     #                                            path = path + '/tramits')
-    #         if obj.actual_result_count == 0:                                   
+    #         if obj.actual_result_count == 0:
     #             tramits = createContentInContainer(portal, 'Folder', title=u"Tràmits", checkConstraints=False)
     #             tramits.language = pl.getDefaultLanguage()
     #             tramits.exclude_from_nav = True
     #             workflowTool.doActionFor(tramits, "publish")
     #             tramits.reindexObject()
-        
+
         else:
             return 'This site has no p.a.contenttypes installed.'
-        
-    transaction.commit()   
+
+    transaction.commit()
