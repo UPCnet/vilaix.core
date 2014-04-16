@@ -29,7 +29,10 @@ setup(name='vilaix.core',
           'setuptools',
           'vilaix.theme',
           'plone.app.dexterity',
-          'loremipsum'
+          'loremipsum',
+          'upc.genweb.banners',
+          'upc.genweb.logosfooter',
+          'collective.portlet.twitter'
       ],
       entry_points="""
       # -*- Entry points: -*-
