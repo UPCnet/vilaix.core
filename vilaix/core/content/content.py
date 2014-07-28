@@ -15,6 +15,7 @@ from plone.app.collection.interfaces import ICollection
 from vilaix.core.content.equipament import IEquipament
 from vilaix.core.content.tramit import ITramit
 from vilaix.core.content.slider import ISlider
+from zope.component.hooks import getSite
 
 
 class ContainerCollection(Container, Collection):
@@ -72,7 +73,7 @@ class ContainerCollection(Container, Collection):
 class Equipament(Item):
     implements(IEquipament)
 
-class Tramit(Item):
+class Tramit(Container):
     implements(ITramit)
 
 class Slider(Item):
