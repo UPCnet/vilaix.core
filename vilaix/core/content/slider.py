@@ -21,6 +21,12 @@ class ISlider(form.Schema):
         required=False,
     )
 
+    alt = schema.TextLine(
+        title=_(u"Alt"),
+        description=_(u"Afegeix la descripció que vols que es mostri per temes accessibilitat"),
+        required=False,
+    )
+
     # URLdesti = schema.TextLine(
     #     title=_(u"URLdesti"),
     #     description=_(u"Afegeix la url que cal obrir"),
