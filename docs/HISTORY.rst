@@ -1,11 +1,10 @@
 Changelog
 =========
 
-1.1 (unreleased)
+1.1 (2014-09-18)
 ----------------
 
-- Nothing changed yet.
-
+* Afegir camp alt al slider [Pilar Marinas]
 
 1.0 (2014-07-31)
 ----------------
