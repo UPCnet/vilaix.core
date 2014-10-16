@@ -1,11 +1,11 @@
 Changelog
 =========
 
-1.2 (unreleased)
+1.2 (2014-10-16)
 ----------------
 
-- Nothing changed yet.
-
+* Modificar factory Equipament [Pilar Marinas]
+* Afegir objectes que poden ser linkables [Pilar Marinas]
 
 1.1 (2014-09-18)
 ----------------
