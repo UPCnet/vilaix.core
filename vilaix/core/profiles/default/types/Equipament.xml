@@ -4,7 +4,7 @@
  <property name="title" i18n:translate="">Equipament</property>
  <property name="description" i18n:translate=""></property>
  <property name="icon_expr"></property>
- <property name="factory">News Item</property>
+ <property name="factory">Equipament</property>
  <property name="add_view_expr">string:${folder_url}/++add++Equipament</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
