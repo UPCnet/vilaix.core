@@ -407,7 +407,7 @@ class SetupView(grok.View):
                                                 path = path + '/material-multimedia/banners/banners_dreta')
         if obj.actual_result_count == 0:
             _createObjectByType('BannerContainer', banners, 'banners_dreta')
-            banners['banners_dreta'].setExcludeFromNav(True)
+            banners['banners_dreta'].exclude_from_nav = True
             banners['banners_dreta'].setTitle('Banners-dreta')
             banners['banners_dreta'].reindexObject()
             workflowTool.doActionFor(banners.banners_dreta, "publish")
@@ -418,7 +418,7 @@ class SetupView(grok.View):
                                                 path = path + '/material-multimedia/banners/banners_esquerra')
         if obj.actual_result_count == 0:
             _createObjectByType('BannerContainer', banners, 'banners_esquerra')
-            banners['banners_esquerra'].setExcludeFromNav(True)
+            banners['banners_esquerra'].exclude_from_nav = True
             banners['banners_esquerra'].setTitle('Banners-esquerra')
             banners['banners_esquerra'].reindexObject()
             workflowTool.doActionFor(banners.banners_esquerra, "publish")
