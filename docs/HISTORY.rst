@@ -1,11 +1,10 @@
 Changelog
 =========
 
-1.4 (unreleased)
+1.4 (2014-10-22)
 ----------------
 
-- Nothing changed yet.
-
+* Solucionar exclude from nav en bannerContainer [Pilar Marinas]
 
 1.3 (2014-10-17)
 ----------------
