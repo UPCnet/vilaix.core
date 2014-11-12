@@ -1,70 +1,34 @@
-"""Definition of the Carrousel contenttype
-"""
+# -*- coding: utf-8 -*-
+from five import grok
+from plone.directives import form
+from plone.namedfile.field import NamedBlobImage
+from plone.indexer.decorator import indexer
+from plone.app.contenttypes.utils import replace_link_variables_by_paths
 
-from zope.interface import implements
-
-from Products.Archetypes import atapi
-from Products.ATContentTypes.content import base
-from Products.ATContentTypes.content import schemata
-from Products.Archetypes.atapi import *
-
-from vilaix.core.interfaces import ICarrousel
-from vilaix.core.config import PROJECTNAME
-
-CarrouselSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
-
-    ImageField(
-        name='Imatge',
-        widget=ImageField._properties['widget'](
-            label='Image',
-            label_msgid='lbl_Imatge',
-            i18n_domain='vilaix.core',
-        ),
-        storage=AttributeStorage(),
-    ),
-    StringField(
-        name='URLdesti',
-        widget=StringField._properties['widget'](
-            label='Urldesti',
-            description="You must include http:// at the beginning to make an external link",            
-            label_msgid='lbl_UrlDesti',
-            description_msgid='lbl_HelpDescription',            
-            i18n_domain='vilaix.core',
-        ),
-    ),
-    BooleanField(
-        name='Obrirennovafinestra',
-        widget=BooleanField._properties['widget'](
-            label='Open in a new window',
-            label_msgid='lbl_ObrirEnFinestraNova',
-            i18n_domain='vilaix.core',
-        ),
-    ),
+from zope import schema
+from zope.i18nmessageid import MessageFactory
+_ = MessageFactory("vilaix")
 
 
-))
+class ICarrousel(form.Schema):
+    """ A site banner.
+    """
+
+    image = NamedBlobImage(
+        title=_(u"Picture"),
+        description=_(u"Please upload an image"),
+        required=False,
+    )
+
+    remoteUrl = schema.TextLine(
+        title=_(u"url"),
+        description=_(u"URL to open"),
+        required=False,
+    )
 
 
-CarrouselSchema['title'].storage = atapi.AnnotationStorage()
-CarrouselSchema['description'].storage = atapi.AnnotationStorage()
-# Hide default category option
-CarrouselSchema['subject'].widget.visible = {'view': 'invisible', 'edit':'invisible'}
-CarrouselSchema['relatedItems'].widget.visible = False
-CarrouselSchema['language'].widget.visible = False
-
-schemata.finalizeATCTSchema(CarrouselSchema, moveDiscussion=False)
-
-
-
-class Carrousel(base.ATCTContent):
-    """Description of the Example Type"""
-    implements(ICarrousel)
-
-    meta_type = "Carrousel"
-    schema = CarrouselSchema
-
-    title = atapi.ATFieldProperty('title')
-    description = atapi.ATFieldProperty('description')
-
-
-atapi.registerType(Carrousel, PROJECTNAME)
+@indexer(ICarrousel)
+def getRemoteUrl(obj):
+    if obj.remoteUrl:
+        return replace_link_variables_by_paths(obj, obj.remoteUrl)
+grok.global_adapter(getRemoteUrl, name='getRemoteUrl')

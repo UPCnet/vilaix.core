@@ -1,16 +1,9 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five"   
+    xmlns:five="http://namespaces.zope.org/five"
     xmlns:grok="http://namespaces.zope.org/grok"
     i18n_domain="vilaix.core">
 
-  <class class=".carrousel.Carrousel">
-    <require
-        permission="zope2.View"
-        interface="..interfaces.ICarrousel"
-        />
-  </class>  
-   
   <grok:grok package="." />
 
 </configure>

@@ -16,6 +16,7 @@ from vilaix.core.content.equipament import IEquipament
 from vilaix.core.content.tramit import ITramit
 from vilaix.core.content.slider import ISlider
 from zope.component.hooks import getSite
+from vilaix.core.content.carrousel import ICarrousel
 
 
 class ContainerCollection(Container, Collection):
@@ -70,11 +71,18 @@ class ContainerCollection(Container, Collection):
         else:
             raise NotFound
 
+
 class Equipament(Item):
     implements(IEquipament)
+
 
 class Tramit(Container):
     implements(ITramit)
 
+
 class Slider(Item):
     implements(ISlider)
+
+
+class Carrousel(Item):
+    implements(ICarrousel)

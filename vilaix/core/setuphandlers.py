@@ -75,16 +75,16 @@ def setupVarious(context):
 
     # Delete old AT folders
     if getattr(portal, 'events', None):
-        if portal.events.__class__.__name__ == 'ATFolder':
-            portal.manage_delObjects(['events'])
+        #if portal.events.__class__.__name__ == 'ATFolder':
+        portal.manage_delObjects(['events'])
 
     if getattr(portal, 'news', None):
-        if portal.news.__class__.__name__ == 'ATFolder':
-            portal.manage_delObjects(['news'])
+        #if portal.news.__class__.__name__ == 'ATFolder':
+        portal.manage_delObjects(['news'])
 
     if getattr(portal, 'Members', None):
-        if portal.Members.__class__.__name__ == 'ATFolder':
-            portal.manage_delObjects(['Members'])
+        #if portal.Members.__class__.__name__ == 'ATFolder':
+        portal.manage_delObjects(['Members'])
 
     # if getattr(portal, 'front-page', None):
     #     if portal['front-page'].__class__.__name__ == 'ATDocument':

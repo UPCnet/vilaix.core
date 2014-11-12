@@ -381,8 +381,8 @@ class SetupView(grok.View):
 
             behavior = ISelectableConstrainTypes(carroussel)
             behavior.setConstrainTypesMode(1)
-            behavior.setLocallyAllowedTypes(('Carrousel', 'BannerContainer'))
-            behavior.setImmediatelyAddableTypes(('Carrousel', 'BannerContainer'))
+            behavior.setLocallyAllowedTypes(('Carrousel', 'Folder'))
+            behavior.setImmediatelyAddableTypes(('Carrousel', 'Folder'))
 
         #Imatges Capçalera
         obj = portal_catalog.searchResults(portal_type = 'Folder',
