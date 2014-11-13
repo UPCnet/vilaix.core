@@ -1,11 +1,10 @@
 Changelog
 =========
 
-1.5 (unreleased)
+1.5 (2014-11-13)
 ----------------
 
-- Nothing changed yet.
-
+* Carrousel DX [Pilar Marinas]
 
 1.4 (2014-10-22)
 ----------------
