@@ -51,6 +51,18 @@ class IEquipament(form.Schema):
         required=False,
     )
 
+    latitude = schema.TextLine(
+        title=_(u"Latitud"),
+        description=_(u"Afegeix la latitud"),
+        required=False,
+    )
+
+    longitude = schema.TextLine(
+        title=_(u"Longitud"),
+        description=_(u"Afegeix la longitud"),
+        required=False,
+    )
+
     telefon = schema.TextLine(
         title=_(u"Telèfon"),
         description=_(u"Afegeix el telèfon de contacte del responsable de l'equipament"),
