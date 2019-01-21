@@ -13,6 +13,7 @@ from Acquisition import aq_parent, aq_inner
 from plone.app.collection.interfaces import ICollection
 
 from vilaix.core.content.equipament import IEquipament
+from vilaix.core.content.associacio import IAssociacio
 from vilaix.core.content.tramit import ITramit
 from vilaix.core.content.slider import ISlider
 from zope.component.hooks import getSite
@@ -86,3 +87,6 @@ class Slider(Item):
 
 class Carrousel(Item):
     implements(ICarrousel)
+
+class Associacio(Item):
+    implements(IAssociacio)

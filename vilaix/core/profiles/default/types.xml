@@ -10,5 +10,6 @@
   <object name="Tramit" meta_type="Dexterity FTI" />
   <object name="Slider" meta_type="Dexterity FTI" />
   <object name="Carrousel" meta_type="Dexterity FTI" />
+  <object name="Associacio" meta_type="Dexterity FTI" />
 
 </object>
