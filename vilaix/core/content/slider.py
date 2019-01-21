@@ -4,7 +4,6 @@ from zope import schema
 
 from plone.directives import form
 from plone.indexer.decorator import indexer
-from plone.app.textfield import RichText
 from plone.namedfile.field import NamedImage
 from plone.app.contenttypes.utils import replace_link_variables_by_paths
 from zope.i18nmessageid import MessageFactory
@@ -28,27 +27,16 @@ class ISlider(form.Schema):
     )
 
     remoteUrl = schema.TextLine(
-    title=_(u"url"),
-    description=_(u"URL to open"),
-    required=False,
-
+        title=_(u"url"),
+        description=_(u"URL to open"),
+        required=False,
     )
+
 
 @indexer(ISlider)
 def getRemoteUrl(obj):
     if obj.remoteUrl:
         return replace_link_variables_by_paths(obj, obj.remoteUrl)
+
+
 grok.global_adapter(getRemoteUrl, name='getRemoteUrl')
-
-
-    # URLdesti = schema.TextLine(
-    #     title=_(u"URLdesti"),
-    #     description=_(u"Afegeix la url que cal obrir"),
-    #     required=False,
-    # )
-
-    # Obrirennovafinestra = schema.Bool(
-    #     title=_(u"Obrirennovafinestra"),
-    #     description=_(u"Open in new window?"),
-    #     required=False,
-    # )

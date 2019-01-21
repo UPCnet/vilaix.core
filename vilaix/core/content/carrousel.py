@@ -31,4 +31,6 @@ class ICarrousel(form.Schema):
 def getRemoteUrl(obj):
     if obj.remoteUrl:
         return replace_link_variables_by_paths(obj, obj.remoteUrl)
+
+
 grok.global_adapter(getRemoteUrl, name='getRemoteUrl')

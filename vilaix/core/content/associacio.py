@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from five import grok
 from zope import schema
 
 from plone.directives import form
@@ -99,4 +98,3 @@ class IAssociacio(form.Schema):
         description=_(u"Enganxa iframe de google maps si la ubicació no surt correctament"),
         required=False,
     )
-

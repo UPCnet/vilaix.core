@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-from five import grok
 from zope import schema
 
 from plone.directives import form
 
 from plone.app.textfield import RichText
-from plone.namedfile.field import NamedImage
 from plone.namedfile.field import NamedFile
 
 from zope.i18nmessageid import MessageFactory
@@ -15,12 +13,6 @@ _ = MessageFactory("vilaix")
 class ITramit(form.Schema):
     """Un tràmit
     """
-
-    # image = NamedImage(
-    #     title=_(u"Image"),
-    #     description=_(u"Please upload an image"),
-    #     required=False,
-    # )
 
     qui = RichText(
         title=_(u"Qui el pot sol·licitar?"),

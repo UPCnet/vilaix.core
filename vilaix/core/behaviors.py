@@ -24,6 +24,7 @@ class IRichDescription(form.Schema):
         required=False,
     )
 
+
 alsoProvides(IRichDescription, form.IFormFieldProvider)
 
 
@@ -36,5 +37,6 @@ class INewDestacada(form.Schema):
         description=u"Noticia destacada",
         required=False,
     )
+
 
 alsoProvides(INewDestacada, form.IFormFieldProvider)

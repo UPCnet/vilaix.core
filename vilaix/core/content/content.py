@@ -9,14 +9,13 @@ from copy import deepcopy
 from plone.app.collection.collection import Collection
 from plone.app.querystring.querybuilder import QueryBuilder
 
-from Acquisition import aq_parent, aq_inner
+from Acquisition import aq_parent
 from plone.app.collection.interfaces import ICollection
 
 from vilaix.core.content.equipament import IEquipament
 from vilaix.core.content.associacio import IAssociacio
 from vilaix.core.content.tramit import ITramit
 from vilaix.core.content.slider import ISlider
-from zope.component.hooks import getSite
 from vilaix.core.content.carrousel import ICarrousel
 
 
@@ -87,6 +86,7 @@ class Slider(Item):
 
 class Carrousel(Item):
     implements(ICarrousel)
+
 
 class Associacio(Item):
     implements(IAssociacio)
