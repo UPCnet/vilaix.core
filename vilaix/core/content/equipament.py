@@ -11,7 +11,7 @@ _ = MessageFactory("vilaix")
 
 
 class IEquipament(form.Schema):
-    """Un equipament
+    """ Un equipament
     """
 
     image = NamedImage(
@@ -44,21 +44,15 @@ class IEquipament(form.Schema):
         required=False,
     )
 
-    geolocalitzacio = schema.TextLine(
-        title=_(u"Geolocalitzacio"),
-        description=_(u"Afegeix la geolocalitzacio"),
-        required=False,
-    )
-
     latitude = schema.TextLine(
         title=_(u"Latitud"),
-        description=_(u"Afegeix la latitud"),
+        description=_(u"Introdueix la latitud. Es fa servir per mostrar l'element al mapa global."),
         required=False,
     )
 
     longitude = schema.TextLine(
         title=_(u"Longitud"),
-        description=_(u"Afegeix la longitud"),
+        description=_(u"Introdueix la longitud. Es fa servir per mostrar l'element al mapa global."),
         required=False,
     )
 
@@ -86,15 +80,8 @@ class IEquipament(form.Schema):
         required=False,
     )
 
-    ubicacio = RichText(
-        title=_(u"geoLocalització"),
-        description=_(u"Afegeix l'ubicació en el plànol"),
-        required=False,
-        readonly=True,
-    )
-
     ubicacio_iframe = RichText(
         title=_(u"geoLocalització"),
-        description=_(u"Enganxa iframe de google maps si la ubicació no surt correctament"),
+        description=_(u"Enganxa l'iframe de Google Maps amb la ubicació de l'element."),
         required=False,
     )
