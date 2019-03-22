@@ -1,11 +1,13 @@
 Changelog
 =========
 
-1.7 (unreleased)
+1.7 (2019-03-22)
 ----------------
 
-- Nothing changed yet.
-
+* removed geolocalitzacio [Roberto Diaz]
+* PEP8 [Roberto Diaz]
+* Camps latitud i longitud afegits [r.ventura]
+* new content type Associacio [r.ventura]
 
 1.6 (2015-03-19)
 ----------------
