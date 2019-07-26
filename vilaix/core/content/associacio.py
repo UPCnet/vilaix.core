@@ -74,6 +74,11 @@ class IAssociacio(form.Schema):
         required=False,
     )
 
+    pag_xs = RichText(
+        title=(u"Pàgina web i xarxes socials"),
+        required=False,
+    )
+
     mes_informacio = RichText(
         title=_(u"Més informació"),
         description=_(u"Afegeix més informació"),
