@@ -1,11 +1,10 @@
 Changelog
 =========
 
-1.8 (unreleased)
+1.8 (2019-07-29)
 ----------------
 
-- Nothing changed yet.
-
+* associacio new field [r.ventura]
 
 1.7 (2019-03-22)
 ----------------
